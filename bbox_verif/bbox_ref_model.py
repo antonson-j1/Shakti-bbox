@@ -30,6 +30,12 @@ def bbox_rm(instr, rs1, rs2, XLEN):
             res = res + 2**XLEN
         valid = '1'
 
+    elif instr == 3:
+        res = ~(rs1 ^ rs2)
+        if res < 0:
+            res = res + 2**XLEN
+        valid = '1'
+
 
 
 

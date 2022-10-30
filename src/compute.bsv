@@ -44,6 +44,11 @@ function BBoxOutput fn_compute(BBoxInput inp);
       valid = True;
     end
 
+    `XNOR: begin
+      result = fn_xnor(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
     default: begin
       result = 0;
       valid = False;

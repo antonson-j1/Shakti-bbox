@@ -14,3 +14,4 @@ Details: Has the macros used for instruction comparison
 `define ANDN 'b1
 
 `define ORN 2
+`define XNOR 3
