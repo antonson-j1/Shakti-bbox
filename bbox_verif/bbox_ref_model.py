@@ -15,6 +15,14 @@ Task Description: Add logic for all instructions. One instruction is implemented
 Note - if instr has single operand, take rs1 as an operand
 '''
 
+#Functions to be used for instructions
+def HighestSetBit(rs, XLEN):
+    for i in range((XLEN-1), -1, -1):
+        if (rs>>i)&(1) == 0b1:
+            return i
+    return XLEN
+
+
 #Reference model
 def bbox_rm(instr, rs1, rs2, XLEN):
     
@@ -34,6 +42,12 @@ def bbox_rm(instr, rs1, rs2, XLEN):
         res = ~(rs1 ^ rs2)
         if res < 0:
             res = res + 2**XLEN
+        valid = '1'
+
+    elif instr == 4:
+        HighestOne = HighestSetBit(rs1, XLEN)
+        res = (XLEN-1) - HighestOne
+        #print("DEBUGGING RES = {:064b}".format(res))
         valid = '1'
 
 
