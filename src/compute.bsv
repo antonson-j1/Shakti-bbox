@@ -72,6 +72,16 @@ function BBoxOutput fn_compute(BBoxInput inp);
       valid = True;
     end
 
+    `CPOP: begin
+      result = fn_cpop(inp.rs1);
+      valid = True;
+    end
+
+    `CPOPW: begin
+      result = fn_cpopw(inp.rs1);
+      valid = True;
+    end
+
 
     default: begin
       result = 0;

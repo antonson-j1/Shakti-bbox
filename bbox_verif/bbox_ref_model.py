@@ -28,6 +28,15 @@ def LowestSetBit(rs, XLEN):
             return i
     return -1
 
+def CountSetBits(rs, XLEN):
+    count = 0
+    for i in range(0, (XLEN), 1):
+        if (rs>>i)&(1) == 0b1:
+            count = count+1
+    return count
+
+
+
 
 #Reference model
 def bbox_rm(instr, rs1, rs2, XLEN):
@@ -61,15 +70,22 @@ def bbox_rm(instr, rs1, rs2, XLEN):
         valid = '1'
 
     elif instr == 6:
-        LowestOne = LowestSetBit(rs1, XLEN)
-        res = LowestOne
+        res = LowestSetBit(rs1, XLEN)
         valid = '1'
 
     elif instr == 7:
-        LowestOne = LowestSetBit(rs1, 32)
-        res = LowestOne
+        res = LowestSetBit(rs1, 32)
         valid = '1'
 
+    elif instr == 8:
+        res = CountSetBits(rs1, XLEN)
+        valid = '1'
+
+    elif instr == 9:
+        res = CountSetBits(rs1, 32)
+        valid = '1'
+
+    
 
     ## logic for all other instr ends
     else:

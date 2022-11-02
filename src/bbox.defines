@@ -19,3 +19,5 @@ Details: Has the macros used for instruction comparison
 `define CLZW 5
 `define CTZ 6
 `define CTZW 7
+`define CPOP 8
+`define CPOPW 9

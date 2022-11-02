@@ -50,3 +50,21 @@ function Bit#(XLEN) fn_ctzw(Bit#(XLEN) rs);
   result= zeroExtend(pack(countZerosLSB(rs[31:0])));
   return signExtend(result[31:0]);
 endfunction
+
+
+function Bit#(XLEN) fn_cpop(Bit#(XLEN) rs) ;
+  Bit#(XLEN) result=0;
+  if(valueof(XLEN)==32) result= zeroExtend(pack(countOnes(rs[31:0])));
+  else result= zeroExtend(pack(countOnes(rs)));
+
+  case(valueof(XLEN)) matches
+    64: return result;
+    32: return signExtend(result[31:0]);
+  endcase
+endfunction
+
+function Bit#(XLEN) fn_cpopw(Bit#(XLEN) rs);
+  Bit#(32) result=0;
+  result= zeroExtend(pack(countOnes(rs[31:0])));
+  return signExtend(result[31:0]);
+endfunction
