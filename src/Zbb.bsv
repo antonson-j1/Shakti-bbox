@@ -70,9 +70,11 @@ function Bit#(XLEN) fn_cpopw(Bit#(XLEN) rs);
 endfunction
 
 // MAX
-// function Bit#(XLEN) fn_max(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
-//   return (unpack(pack(rs1 > rs2)^1)) ? rs1 : rs2 ;
-// endfunction
+function Bit#(XLEN) fn_max(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
+  Int#(XLEN) src1 = unpack(rs1);
+  Int#(XLEN) src2 = unpack(rs2);
+  return (src1 > src2) ? rs1 : rs2 ;
+endfunction
 
 // MAX UNSIGNED
 function Bit#(XLEN) fn_maxu(Bit#(XLEN) rs1, Bit#(XLEN) rs2);  
@@ -81,9 +83,26 @@ function Bit#(XLEN) fn_maxu(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
   return (src1 > src2) ? rs1 : rs2 ;
 endfunction
 
-// MAX
-function Bit#(XLEN) fn_max(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
+// MIN
+function Bit#(XLEN) fn_min(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
   Int#(XLEN) src1 = unpack(rs1);
   Int#(XLEN) src2 = unpack(rs2);
-  return (src1 > src2) ? rs1 : rs2 ;
+  return (src1 < src2) ? rs1 : rs2 ;
 endfunction
+
+// MIN UNSIGNED
+function Bit#(XLEN) fn_minu(Bit#(XLEN) rs1, Bit#(XLEN) rs2);  
+  UInt#(XLEN) src1 = unpack(rs1);
+  UInt#(XLEN) src2 = unpack(rs2);
+  return (src1 < src2) ? rs1 : rs2 ;
+endfunction
+
+// // SEXT.B
+// function Bit#(XLEN) fn_sext_b(Bit#(XLEN) rs1);
+//     return signExtend(rs1[7:0]);
+// endfunction
+
+// //SEXT.H
+// function Bit#(XLEN) fn_sext_h(Bit#(XLEN) rs1);
+//     return signExtend(rs1[15:0]);
+// endfunction

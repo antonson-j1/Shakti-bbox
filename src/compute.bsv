@@ -92,6 +92,16 @@ function BBoxOutput fn_compute(BBoxInput inp);
       valid = True;
     end
 
+    `MIN: begin
+      result = fn_min(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `MINU: begin
+      result = fn_minu(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
     default: begin
       result = 0;
       valid = False;
