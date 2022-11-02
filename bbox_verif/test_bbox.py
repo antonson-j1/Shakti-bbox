@@ -106,7 +106,7 @@ async def TB(dut, XLEN, instr, instr_name, single_opd, num_of_tests):
 # generates sets of tests based on the different permutations of the possible arguments to the test function
 tf = TestFactory(TB)
 
-base = 'RV64'
+base = 'RV32'
 #To run tests for RV32, change base = 'RV32'
 
 #generates tests for instructions of RV32
