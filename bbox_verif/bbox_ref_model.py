@@ -22,6 +22,12 @@ def HighestSetBit(rs, XLEN):
             return i
     return XLEN
 
+def LowestSetBit(rs, XLEN):
+    for i in range(0, (XLEN), 1):
+        if (rs>>i)&(1) == 0b1:
+            return i
+    return -1
+
 
 #Reference model
 def bbox_rm(instr, rs1, rs2, XLEN):
@@ -54,6 +60,10 @@ def bbox_rm(instr, rs1, rs2, XLEN):
         res = 31 - HighestOne
         valid = '1'
 
+    elif instr == 6:
+        LowestOne = LowestSetBit(rs1, XLEN)
+        res = LowestOne
+        valid = '1'
 
 
     ## logic for all other instr ends
