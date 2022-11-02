@@ -82,6 +82,10 @@ function BBoxOutput fn_compute(BBoxInput inp);
       valid = True;
     end
 
+    `MAX: begin
+      result = fn_max(inp.rs1, inp.rs2);
+      valid = True;
+    end
 
     default: begin
       result = 0;

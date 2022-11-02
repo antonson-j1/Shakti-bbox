@@ -68,3 +68,7 @@ function Bit#(XLEN) fn_cpopw(Bit#(XLEN) rs);
   result= zeroExtend(pack(countOnes(rs[31:0])));
   return signExtend(result[31:0]);
 endfunction
+
+function Bit#(XLEN) fn_max(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
+  return (unpack(pack(rs1 > rs2))) ? rs1 : rs2 ;
+endfunction

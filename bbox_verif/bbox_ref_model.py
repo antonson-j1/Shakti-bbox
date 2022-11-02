@@ -84,6 +84,13 @@ def bbox_rm(instr, rs1, rs2, XLEN):
     elif instr == 9:
         res = CountSetBits(rs1, 32)
         valid = '1'
+    
+    elif instr == 10:
+        if rs1 > rs2:
+            res = rs1
+        else:
+            res = rs2
+        valid = '1'
 
     
 
