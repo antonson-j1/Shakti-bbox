@@ -69,6 +69,21 @@ function Bit#(XLEN) fn_cpopw(Bit#(XLEN) rs);
   return signExtend(result[31:0]);
 endfunction
 
+// MAX
+// function Bit#(XLEN) fn_max(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
+//   return (unpack(pack(rs1 > rs2)^1)) ? rs1 : rs2 ;
+// endfunction
+
+// MAX UNSIGNED
+function Bit#(XLEN) fn_maxu(Bit#(XLEN) rs1, Bit#(XLEN) rs2);  
+  UInt#(XLEN) src1 = unpack(rs1);
+  UInt#(XLEN) src2 = unpack(rs2);
+  return (src1 > src2) ? rs1 : rs2 ;
+endfunction
+
+// MAX
 function Bit#(XLEN) fn_max(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
-  return (unpack(pack(rs1 > rs2))) ? rs1 : rs2 ;
+  Int#(XLEN) src1 = unpack(rs1);
+  Int#(XLEN) src2 = unpack(rs2);
+  return (src1 > src2) ? rs1 : rs2 ;
 endfunction

@@ -77,20 +77,39 @@ def bbox_rm(instr, rs1, rs2, XLEN):
         res = LowestSetBit(rs1, 32)
         valid = '1'
 
-    elif instr == 8:
+    elif instr == 8:    # CPOP
         res = CountSetBits(rs1, XLEN)
         valid = '1'
 
-    elif instr == 9:
+    elif instr == 9:    # CPOPW
         res = CountSetBits(rs1, 32)
         valid = '1'
     
-    elif instr == 10:
+    
+    elif instr == 10:   # MAX
+        print(rs1, type(rs1))
+        if rs1>>(XLEN-1) & 1 == 0b1:
+            rs1 = rs1 - 2**(XLEN)
+        if rs2>>(XLEN-1) & 1 == 0b1:
+            rs2 = rs2 - 2**(XLEN)
+
+        if rs1 > rs2:
+            res = rs1
+        else:
+            res = rs2
+
+        if res < 0:
+            res = res + 2**XLEN
+        valid = '1'
+
+
+    elif instr == 11:   # MAX UNSIGNED
         if rs1 > rs2:
             res = rs1
         else:
             res = rs2
         valid = '1'
+
 
     
 

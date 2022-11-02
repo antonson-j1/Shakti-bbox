@@ -22,3 +22,4 @@ Details: Has the macros used for instruction comparison
 `define CPOP 8
 `define CPOPW 9
 `define MAX 10
+`define MAXU 11
