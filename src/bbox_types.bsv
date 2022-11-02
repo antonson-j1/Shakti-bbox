@@ -12,11 +12,10 @@ Details: The file contains the structures, macors etc.
 
 package bbox_types;
 
-`ifdef RV64
-   typedef 64 XLEN;
-   typedef 32 XLEN_BY_2;
-`else
+`ifdef RV32
    typedef 32 XLEN;
+`else
+   typedef 64 XLEN;
 `endif
 
 typedef struct {

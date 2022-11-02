@@ -1,5 +1,6 @@
 function Bit#(XLEN) fn_andn(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
-  return rs1 & ~rs2;
+  Bit#(XLEN) res = truncate(rs1 & ~rs2);
+  return res;
 endfunction
 
 /////////////////////////////////////////////////////////////
@@ -11,6 +12,7 @@ endfunction
 function Bit#(XLEN) fn_xnor(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
   return ~(rs1^rs2);
 endfunction
+
 
 function Bit#(XLEN) fn_clz(Bit#(XLEN) src1);
 

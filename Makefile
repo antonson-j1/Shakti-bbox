@@ -1,6 +1,9 @@
 TOPFILE=bbox.bsv
 BSVINCDIR=.:%/Libraries:./src
+
 BSCDEFINES=RV64
+#To run tests for RV32, change base = 'RV32'
+
 VERILOGDIR=verilog/
 BUILDDIR=intermediate/
 

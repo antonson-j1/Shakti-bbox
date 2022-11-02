@@ -31,11 +31,14 @@ import bbox_types :: *;
   and verified.
 */
 function BBoxOutput fn_compute(BBoxInput inp);
+
   Bit#(XLEN) result;
+  //Bit#(32) res;
   Bool valid;
   case(inp.instr) matches
     `ANDN: begin
-      result = fn_andn(inp.rs1, inp.rs2);
+      result = truncate(fn_andn(inp.rs1, inp.rs2));
+      //result = res[31:0];
       valid = True;
     end
 
