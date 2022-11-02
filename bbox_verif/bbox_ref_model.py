@@ -47,9 +47,12 @@ def bbox_rm(instr, rs1, rs2, XLEN):
     elif instr == 4:
         HighestOne = HighestSetBit(rs1, XLEN)
         res = (XLEN-1) - HighestOne
-        #print("DEBUGGING RES = {:064b}".format(res))
         valid = '1'
 
+    elif instr == 5:
+        HighestOne = HighestSetBit(rs1, 32)
+        res = 31 - HighestOne
+        valid = '1'
 
 
 
