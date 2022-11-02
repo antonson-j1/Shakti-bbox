@@ -102,6 +102,22 @@ function BBoxOutput fn_compute(BBoxInput inp);
       valid = True;
     end
 
+    `SEXT_B: begin
+      result = fn_sext_b(inp.rs1);
+      valid = True;
+    end
+
+    `SEXT_H: begin
+      result = fn_sext_h(inp.rs1);
+      valid = True;
+    end
+
+    `ZEXT_H: begin
+      result = fn_zext_h(inp.rs1);
+      valid = True;
+    end
+
+
     default: begin
       result = 0;
       valid = False;

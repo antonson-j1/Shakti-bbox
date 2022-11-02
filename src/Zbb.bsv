@@ -97,12 +97,17 @@ function Bit#(XLEN) fn_minu(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
   return (src1 < src2) ? rs1 : rs2 ;
 endfunction
 
-// // SEXT.B
-// function Bit#(XLEN) fn_sext_b(Bit#(XLEN) rs1);
-//     return signExtend(rs1[7:0]);
-// endfunction
+// SEXT.B
+function Bit#(XLEN) fn_sext_b(Bit#(XLEN) rs1);
+    return signExtend(rs1[7:0]);
+endfunction
 
-// //SEXT.H
-// function Bit#(XLEN) fn_sext_h(Bit#(XLEN) rs1);
-//     return signExtend(rs1[15:0]);
-// endfunction
+//SEXT.H
+function Bit#(XLEN) fn_sext_h(Bit#(XLEN) rs1);
+    return signExtend(rs1[15:0]);
+endfunction
+
+//ZEXT.H
+function Bit#(XLEN) fn_zext_h(Bit#(XLEN) rs1);
+    return zeroExtend(rs1[15:0]);
+endfunction

@@ -131,7 +131,30 @@ def bbox_rm(instr, rs1, rs2, XLEN):
             res = rs2
         valid = '1'
 
+    elif instr == 14:   # SEXT B
+        if rs1>>7 & 1 == 0b1:
+            res = int("0xFFFFFFFFFFFFFF00",16) + (rs1 & 0xFF)
+        else:
+            res = rs1 & 0xFF
+        valid = '1'
 
+    elif instr == 15:   # SEXT H
+        if rs1>>15 & 1 == 0b1:
+            res = int("0xFFFFFFFFFFFF0000",16) + (rs1 & 0xFFFF)
+        else:
+            res = rs1 & 0xFFFF
+        valid = '1'
+
+    elif instr == 15:   # SEXT H
+        if rs1>>15 & 1 == 0b1:
+            res = int("0xFFFFFFFFFFFF0000",16) + (rs1 & 0xFFFF)
+        else:
+            res = rs1 & 0xFFFF
+        valid = '1'
+
+    elif instr == 16:   # ZEXT H
+        res = rs1 & 0xFFFF
+        valid = '1'
     
 
     ## logic for all other instr ends

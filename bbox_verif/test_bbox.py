@@ -123,7 +123,8 @@ elif base == 'RV64':
     
 tf.add_option(('instr','instr_name','single_opd'), [(1, 'addn', 0), (2,'orn',0), (3,'xnor',0), \
     (4,'clz',1), (5,'clzw',1), (6,'ctz',1), (7,'ctzw',1), (8,'cpop',1), (9,'cpopw',1), \
-        (10,'max',0), (11,'maxu',0), (12,'min',0), (13,'minu',0)])
+        (10,'max',0), (11,'maxu',0), (12,'min',0), (13,'minu',0), (14,'sext_b',1), (15,'sext_h',1), \
+            (16,'zext_h',1)])
     #if instruction has single operand, provide single_opd = 1 (please see below line).
     ##To run multiple instr - tf.add_option(((('instr','instr_name','single_opd'), [(1, 'addn', 0),(2,'clz',1),(...)])
 
