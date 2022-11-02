@@ -106,20 +106,20 @@ async def TB(dut, XLEN, instr, instr_name, single_opd, num_of_tests):
 # generates sets of tests based on the different permutations of the possible arguments to the test function
 tf = TestFactory(TB)
 
-base = 'RV64'
+base = 'RV32'
 #To run tests for RV32, change base = 'RV32'
 
 #generates tests for instructions of RV32
 if base == 'RV32':
     tf.add_option('XLEN', [32])
-    tf.add_option(('instr','instr_name','single_opd'), [(1, 'addn', 0), (2,'orn',0), (3,'xnor',0), (4,'clz',1), (5,'clzw',1), (6,'ctz',1)])
+    tf.add_option(('instr','instr_name','single_opd'), [(1, 'addn', 0), (2,'orn',0), (3,'xnor',0), (4,'clz',1), (5,'clzw',1), (6,'ctz',1), (7,'ctzw',1)])
     #if instruction has single operand, provide single_opd = 1 (please see below line).
     ##To run multiple instr - tf.add_option(((('instr','instr_name','single_opd'), [(1, 'addn', 0),(2,'clz',1),(...)])
 
 #generates tests for instructions of RV64
 elif base == 'RV64':
     tf.add_option('XLEN', [64])
-    tf.add_option(('instr','instr_name','single_opd'), [(1, 'addn', 0), (2,'orn',0), (3,'xnor',0), (4,'clz',1), (5,'clzw',1), (6,'ctz',1)])
+    tf.add_option(('instr','instr_name','single_opd'), [(1, 'addn', 0), (2,'orn',0), (3,'xnor',0), (4,'clz',1), (5,'clzw',1), (6,'ctz',1), (7,'ctzw',1)])
     #if instruction has single operand, provide single_opd = 1 (please see below line).
     ##To run multiple instr - tf.add_option(((('instr','instr_name','single_opd'), [(1, 'addn', 0),(2,'clz',1),(...)])
 

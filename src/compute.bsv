@@ -67,6 +67,11 @@ function BBoxOutput fn_compute(BBoxInput inp);
       valid = True;
     end
 
+    `CTZW: begin
+      result = fn_ctzw(inp.rs1);
+      valid = True;
+    end
+
 
     default: begin
       result = 0;

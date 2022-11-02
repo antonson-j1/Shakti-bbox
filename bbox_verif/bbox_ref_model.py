@@ -65,6 +65,11 @@ def bbox_rm(instr, rs1, rs2, XLEN):
         res = LowestOne
         valid = '1'
 
+    elif instr == 7:
+        LowestOne = LowestSetBit(rs1, 32)
+        res = LowestOne
+        valid = '1'
+
 
     ## logic for all other instr ends
     else:
