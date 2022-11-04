@@ -28,3 +28,6 @@ Details: Has the macros used for instruction comparison
 `define SEXT_B 14
 `define SEXT_H 15
 `define ZEXT_H 16
+`define ROL 17
+`define ROLW 18
+`define ROR 19

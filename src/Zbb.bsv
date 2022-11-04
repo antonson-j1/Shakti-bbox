@@ -44,6 +44,7 @@ function Bit#(XLEN) fn_ctz(Bit#(XLEN) rs);
   endcase
 endfunction
 
+`ifdef RV64
 
 function Bit#(XLEN) fn_ctzw(Bit#(XLEN) rs);
   Bit#(32) result=0;
@@ -51,6 +52,7 @@ function Bit#(XLEN) fn_ctzw(Bit#(XLEN) rs);
   return signExtend(result[31:0]);
 endfunction
 
+`endif
 
 function Bit#(XLEN) fn_cpop(Bit#(XLEN) rs) ;
   Bit#(XLEN) result=0;
@@ -99,15 +101,42 @@ endfunction
 
 // SEXT.B
 function Bit#(XLEN) fn_sext_b(Bit#(XLEN) rs1);
-    return signExtend(rs1[7:0]);
+  return signExtend(rs1[7:0]);
 endfunction
 
 //SEXT.H
 function Bit#(XLEN) fn_sext_h(Bit#(XLEN) rs1);
-    return signExtend(rs1[15:0]);
+  return signExtend(rs1[15:0]);
 endfunction
 
 //ZEXT.H
 function Bit#(XLEN) fn_zext_h(Bit#(XLEN) rs1);
-    return zeroExtend(rs1[15:0]);
+  return zeroExtend(rs1[15:0]);
+endfunction
+
+//ROL
+function Bit#(XLEN) fn_rol(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
+  UInt#(XLEN) x = 0;
+  case(valueof(XLEN)) matches
+    64: x = unpack(zeroExtend(rs2[5:0]));
+    32: x = unpack(zeroExtend(rs2[4:0]));
+  endcase
+  return zeroExtend(rs1 << x) | zeroExtend( rs1 >> (fromInteger(valueOf(XLEN)) - x ) ) ;
+endfunction
+
+//ROLW
+function Bit#(XLEN) fn_rolw(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
+  Bit#(XLEN) x = zeroExtend(rs2[4:0]);
+  Bit#(XLEN) src1 = zeroExtend(rs1[31:0]);
+  return signExtend((src1 << x) | (src1 >> (32 - x)));
+endfunction
+
+//ROR
+function Bit#(XLEN) fn_ror(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
+  UInt#(XLEN) x = 0;
+  case(valueof(XLEN)) matches
+    64: x = unpack(zeroExtend(rs2[5:0]));
+    32: x = unpack(zeroExtend(rs2[4:0]));
+  endcase
+  return zeroExtend(rs1 >> x) | zeroExtend( rs1 << (fromInteger(valueOf(XLEN)) - x ) ) ;
 endfunction
