@@ -12,7 +12,7 @@ Details: The top function which calls the required function depending
 /****** Imports *******/
 `include "bbox.defines"
 import bbox_types :: *;
-//`include "Zba.bsv"
+`include "Zbc.bsv"
 `include "Zbb.bsv"
 //`include "Zbc.bsv"
 //`include "Zbs.bsv"
@@ -135,6 +135,15 @@ function BBoxOutput fn_compute(BBoxInput inp);
       result = fn_ror(inp.rs1, inp.rs2);
       valid = True;
     end
+
+
+
+
+    `CLMUL: begin
+      result = fn_clmul(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
 
 
     default: begin

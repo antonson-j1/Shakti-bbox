@@ -176,6 +176,31 @@ def bbox_rm(instr, rs1, rs2, XLEN):
             res = ((rs1 >> (rs2 & 0x3F)) | (rs1 << (XLEN - (rs2 & 0x3F)))) & (2**(XLEN)-1)
         valid = '1'
 
+    # elif instr == 20:   # RORW
+    #     if XLEN == 32:
+    #         res = ((rs1 >> (rs2 & 0x1F)) | (rs1 << (XLEN - (rs2 & 0x1F)))) & (2**(XLEN)-1)
+    #     else:
+    #         res = ((rs1 >> (rs2 & 0x3F)) | (rs1 << (XLEN - (rs2 & 0x3F)))) & (2**(XLEN)-1)
+    #     valid = '1'
+
+    elif instr == 24:   # CLMUL
+        res = 0
+        for i in range(0, XLEN):
+            if (rs2>>i) & 1 == 1:
+                res = res ^ (rs1 << i)
+
+        res = res & (2**(XLEN)-1)
+        valid = '1'
+
+    # elif instr == 25:   # CLMULH
+    #     res = 0
+    #     for i in range(0, XLEN):
+    #         if (rs2>>i) & 1 == 1:
+    #             res = res ^ (rs1 >> (XLEN-i))
+
+    #     res = res & (2**(XLEN)-1)
+    #     valid = '1'
+
 
     ## logic for all other instr ends
     else:

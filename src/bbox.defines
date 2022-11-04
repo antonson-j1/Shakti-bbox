@@ -31,3 +31,7 @@ Details: Has the macros used for instruction comparison
 `define ROL 17
 `define ROLW 18
 `define ROR 19
+
+
+
+`define CLMUL 24
