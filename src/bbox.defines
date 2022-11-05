@@ -36,4 +36,5 @@ Details: Has the macros used for instruction comparison
 // Zbc instructions
 
 `define CLMUL 24
-`define CLMULR 25
+`define CLMULH 25
+`define CLMULR 26
