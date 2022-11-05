@@ -192,14 +192,14 @@ def bbox_rm(instr, rs1, rs2, XLEN):
         res = res & (2**(XLEN)-1)
         valid = '1'
 
-    # elif instr == 25:   # CLMULH
-    #     res = 0
-    #     for i in range(0, XLEN):
-    #         if (rs2>>i) & 1 == 1:
-    #             res = res ^ (rs1 >> (XLEN-i))
+    elif instr == 25:   # CLMULH
+        res = 0
+        for i in range(0, XLEN):
+            if (rs2>>i) & 1 == 1:
+                res = res ^ (rs1 >> (XLEN-i-1))
 
-    #     res = res & (2**(XLEN)-1)
-    #     valid = '1'
+        res = res & (2**(XLEN)-1)
+        valid = '1'
 
 
     ## logic for all other instr ends

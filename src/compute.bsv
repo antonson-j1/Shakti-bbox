@@ -144,7 +144,10 @@ function BBoxOutput fn_compute(BBoxInput inp);
       valid = True;
     end
 
-
+    `CLMULR: begin
+      result = fn_clmulr(inp.rs1, inp.rs2);
+      valid = True;
+    end
 
     default: begin
       result = 0;
