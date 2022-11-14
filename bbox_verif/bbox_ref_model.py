@@ -183,7 +183,10 @@ def bbox_rm(instr, instr_name, rs1, rs2, XLEN):
     #         res = ((rs1 >> (rs2 & 0x3F)) | (rs1 << (XLEN - (rs2 & 0x3F)))) & (2**(XLEN)-1)
     #     valid = '1'
 
-    elif instr == 24:   # CLMUL
+
+
+    # ZBB instructions
+    elif instr_name == 'clmul':   # CLMUL
         res = 0
         for i in range(0, XLEN):
             if (rs2>>i) & 1 == 1:
@@ -192,7 +195,7 @@ def bbox_rm(instr, instr_name, rs1, rs2, XLEN):
         res = res & (2**(XLEN)-1)
         valid = '1'
 
-    elif instr == 25:   # CLMULH
+    elif instr_name == 'clmulh':   # CLMULH
         res = 0
         for i in range(0, XLEN):
             if (rs2>>i) & 1 == 1:
@@ -201,7 +204,7 @@ def bbox_rm(instr, instr_name, rs1, rs2, XLEN):
         res = res & (2**(XLEN)-1)
         valid = '1'
 
-    elif instr == 26:   # CLMULR
+    elif instr_name == 'clmulr':   # CLMULR
         res = 0
         for i in range(0, XLEN):
             if (rs2>>i) & 1 == 1:

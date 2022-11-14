@@ -39,7 +39,6 @@ function BBoxOutput fn_compute(BBoxInput inp);
   case(inp.instr) matches
     `ANDN: begin
       result = truncate(fn_andn(inp.rs1, inp.rs2));
-      //result = res[31:0];
       valid = True;
     end
 
@@ -140,6 +139,7 @@ function BBoxOutput fn_compute(BBoxInput inp);
 
 
 
+    // ZBC instructions
 
     `CLMUL: begin
       result = fn_clmul(inp.rs1, inp.rs2);

@@ -43,13 +43,11 @@ from bbox_ref_model import bbox_rm
 
 
 def btd(s):
-    
     ans = 0
     n = len(s)
     for i in range(n):
         if(s[i]=='1'):
             ans += pow(2,n-1-i)
-
     return ans
 
 
@@ -63,23 +61,18 @@ def instr_gen(instr_name):
 
 
     if instr_name=='bclri':
-        
-
         if(base == 'RV32'):
             num = random.randint(0,31)
             shamt = bin(num)
             shamt = shamt[2:]
-
             shamt = (5-len(shamt))*'0' + shamt
-
             return btd('0100100' + shamt + '00000' + '001' + '00000' + '0010011')
+        
         else:
             num = random.randint(0,63)
             shamt = bin(num)
             shamt = shamt[2:]
-
             shamt = (6-len(shamt))*'0' + shamt
-
             return btd('010010' + shamt + '00000' + '001' + '00000' + '0010011')
 
     if instr_name=='bext':
@@ -154,6 +147,18 @@ def instr_gen(instr_name):
 
             return btd('001010' + shamt + '00000' + '001' + '00000' + '0010011')
     
+
+
+
+    if instr_name=='clmul':
+        return btd('0000101' + '00000' + '00000' + '001' + '00000' + '0110011')
+    
+    if instr_name=='clmulh':
+        return btd('0000101' + '00000' + '00000' + '011' + '00000' + '0110011')
+    
+    if instr_name=='clmulr':
+        return btd('0000101' + '00000' + '00000' + '010' + '00000' + '0110011')
+
 
 
 #generates clock and reset
@@ -238,8 +243,17 @@ elif base == 'RV64':
     
 tf.add_option(('instr','instr_name','single_opd'), \
     [(instr_gen('andn'), 'andn', 0), 
-    (instr_gen('bclr'), 'bclr', 0), (instr_gen('bclri'), 'bclri', 1), (instr_gen('bext'), 'bext', 0), (instr_gen('bexti'), 'bexti', 1), \
-        (instr_gen('binv'), 'binv', 0), (instr_gen('binvi'), 'binvi', 1), (instr_gen('bset'), 'bset', 0), (instr_gen('bseti'), 'bseti', 1),
+    (instr_gen('bclr'), 'bclr', 0), 
+    (instr_gen('bclri'), 'bclri', 1), 
+    (instr_gen('bext'), 'bext', 0), 
+    (instr_gen('bexti'), 'bexti', 1), 
+    (instr_gen('binv'), 'binv', 0), 
+    (instr_gen('binvi'), 'binvi', 1), 
+    (instr_gen('bset'), 'bset', 0), 
+    (instr_gen('bseti'), 'bseti', 1),
+    (instr_gen('clmul'), 'clmul', 0),
+    (instr_gen('clmulh'), 'clmulh', 0),
+    (instr_gen('clmulr'), 'clmulr', 0),
     ])
 #  (2,'orn',0), (3,'xnor',0), \
 #     (4,'clz',1), (5,'clzw',1), (6,'ctz',1), (7,'ctzw',1), (8,'cpop',1), (9,'cpopw',1), \
