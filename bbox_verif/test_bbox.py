@@ -161,7 +161,10 @@ elif base == 'RV64':
     tf.add_option('XLEN', [64])
     
     
-tf.add_option(('instr','instr_name','single_opd'), [(instr_gen('andn'), 'andn', 0), (instr_gen('bclri'), 'bclri', 1)])
+tf.add_option(('instr','instr_name','single_opd'), \
+    [(instr_gen('andn'), 'andn', 0), 
+    (instr_gen('bclri'), 'bclri', 1),
+    ])
 #  (2,'orn',0), (3,'xnor',0), \
 #     (4,'clz',1), (5,'clzw',1), (6,'ctz',1), (7,'ctzw',1), (8,'cpop',1), (9,'cpopw',1), \
 #         (10,'max',0), (11,'maxu',0), (12,'min',0), (13,'minu',0), (14,'sext_b',1), (15,'sext_h',1), \
