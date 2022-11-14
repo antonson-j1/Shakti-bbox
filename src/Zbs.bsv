@@ -8,6 +8,9 @@ function Bit#(XLEN) fn_bclr(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
 
 endfunction
 
+
+
+
 function Bit#(XLEN) fn_bclri(Bit#(XLEN) rs1, Bit#(32) instr);
 
     Bit#(XLEN) shamt = 0;
