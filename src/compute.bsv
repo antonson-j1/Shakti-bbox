@@ -211,13 +211,28 @@ function BBoxOutput fn_compute(BBoxInput inp);
       valid = True;
     end
 
+    `BEXTI: begin
+      result = fn_bexti(inp.rs1, inp.instr);
+      valid = True;
+    end
+
     `BINV: begin
       result = fn_binv(inp.rs1, inp.rs2);
       valid = True;
     end
 
+    `BINVI: begin
+      result = fn_binvi(inp.rs1, inp.instr);
+      valid = True;
+    end
+
     `BSET: begin
       result = fn_bset(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `BSETI: begin
+      result = fn_bseti(inp.rs1, inp.instr);
       valid = True;
     end
 

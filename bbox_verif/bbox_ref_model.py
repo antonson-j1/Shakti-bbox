@@ -257,7 +257,7 @@ def bbox_rm(instr, instr_name, rs1, rs2, XLEN):
     
 
 
-    elif instr == 34:   # BCLR
+    elif instr_name == 'bclr':   # BCLR
         index = rs2 & (XLEN - 1)
         res = rs1 & ~( 1 << index )
 
@@ -278,23 +278,67 @@ def bbox_rm(instr, instr_name, rs1, rs2, XLEN):
         valid = '1'
     
 
-    elif instr == 36:   # BEXT
+    elif instr_name == 'bext':   # BEXT
         index = rs2 & (XLEN - 1)
         res = (rs1 >> index) & 1
 
         valid = '1'
+
+    elif instr_name == 'bexti':   # BEXTI
+        temp = instr >> 20
+
+        if XLEN == 32:
+            shamt = temp & 0x1F
+        else:
+            shamt = temp & 0x3F
+
+        index = shamt & (XLEN - 1)
+        res = (rs1 >> index) & 1
+
+        valid = '1'
     
-    elif instr == 38:   # BINV
+    
+    elif instr_name == 'binv':   # BINV
         index = rs2 & (XLEN - 1)
         res = rs1 ^ ( 1 << index )
 
         valid = '1'
+
+    elif instr_name == 'binvi':   # BINVI
+
+        temp = instr >> 20
+
+        if XLEN == 32:
+            shamt = temp & 0x1F
+        else:
+            shamt = temp & 0x3F
+
+
+        index = shamt & (XLEN - 1)
+        res = rs1 ^ ( 1 << index )
+
+        valid = '1'
     
-    elif instr == 40:   # BSET
+    
+    elif instr_name == 'bset':   # BSET
         index = rs2 & (XLEN - 1)
         res = rs1 | ( 1 << index )
 
         valid = '1'
+
+    elif instr_name == 'bseti':   # BSETI
+        temp = instr >> 20
+
+        if XLEN == 32:
+            shamt = temp & 0x1F
+        else:
+            shamt = temp & 0x3F
+
+        index = shamt & (XLEN - 1)
+        res = rs1 | ( 1 << index )
+
+        valid = '1'
+    
     
 
 
