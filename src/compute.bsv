@@ -14,8 +14,9 @@ Details: The top function which calls the required function depending
 import bbox_types :: *;
 `include "Zbc.bsv"
 `include "Zbb.bsv"
-//`include "Zbc.bsv"
-//`include "Zbs.bsv"
+
+`include "Zba.bsv"
+`include "Zbs.bsv"
 /*********************/
 
 
@@ -61,6 +62,7 @@ function BBoxOutput fn_compute(BBoxInput inp);
       result = fn_clzw(inp.rs1);
       valid = True;
     end
+
 
     `CTZ: begin
       result = fn_ctz(inp.rs1);
@@ -153,6 +155,72 @@ function BBoxOutput fn_compute(BBoxInput inp);
       result = fn_clmulr(inp.rs1, inp.rs2);
       valid = True;
     end
+
+
+
+
+    `ADD_UW: begin
+      result = fn_and_uw(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `SH1ADD: begin
+      result = fn_sh1add(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `SH1ADD_UW: begin
+      result = fn_sh1add_uw(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `SH2ADD: begin
+      result = fn_sh2add(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `SH2ADD_UW: begin
+      result = fn_sh2add_uw(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `SH3ADD: begin
+      result = fn_sh3add(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `SH3ADD_UW: begin
+      result = fn_sh3add_uw(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+
+
+    `BCLR: begin
+      result = fn_bclr(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `BCLRI: begin
+      result = fn_bclri(inp.rs1, inp.instr);
+      valid = True;
+    end
+
+    `BEXT: begin
+      result = fn_bext(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `BINV: begin
+      result = fn_binv(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `BSET: begin
+      result = fn_bset(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
 
     default: begin
       result = 0;

@@ -44,7 +44,7 @@ function Bit#(XLEN) fn_ctz(Bit#(XLEN) rs);
   endcase
 endfunction
 
-`ifdef RV64
+ `ifdef RV64
 
 function Bit#(XLEN) fn_ctzw(Bit#(XLEN) rs);
   Bit#(32) result=0;
@@ -52,7 +52,7 @@ function Bit#(XLEN) fn_ctzw(Bit#(XLEN) rs);
   return signExtend(result[31:0]);
 endfunction
 
-`endif
+ `endif
 
 function Bit#(XLEN) fn_cpop(Bit#(XLEN) rs) ;
   Bit#(XLEN) result=0;

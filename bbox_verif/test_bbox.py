@@ -41,6 +41,46 @@ from cocotb.regression import TestFactory
 from bbox_ref_model import bbox_rm
 
 
+
+def btd(s):
+    
+    ans = 0
+    n = len(s)
+    for i in range(n):
+        if(s[i]=='1'):
+            ans += pow(2,n-1-i)
+
+    return ans
+
+
+
+def instr_gen(instr_name):
+    if instr_name=='andn':
+        return btd('0100000' + '00000' + '00000' + '111' + '00000' + '0110011')
+
+    if instr_name=='bclri':
+        
+
+        if(base == 'RV32'):
+            num = random.randint(0,31)
+            shamt = bin(num)
+            shamt = shamt[2:]
+
+            shamt = (5-len(shamt))*'0' + shamt
+
+            return btd('0100100' + shamt + '00000' + '001' + '00000' + '0010011')
+        else:
+            num = random.randint(0,63)
+            shamt = bin(num)
+            shamt = shamt[2:]
+
+            shamt = (6-len(shamt))*'0' + shamt
+
+            return btd('010010' + shamt + '00000' + '001' + '00000' + '0010011')
+
+            
+
+
 #generates clock and reset
 async def initial_setup(dut):
 	cocotb.start_soon(Clock(dut.CLK, 1, units='ns').start())
@@ -92,7 +132,7 @@ async def TB(dut, XLEN, instr, instr_name, single_opd, num_of_tests):
     for i in range (num_of_tests):
         rs1 = random.randint(0,(2**XLEN)-1) 
         rs2 = random.randint(0,(2**XLEN)-1)
-        rm_result = bbox_rm(instr, rs1, rs2, XLEN)
+        rm_result = bbox_rm(instr, instr_name, rs1, rs2, XLEN)
     
         await input_driver(dut, instr, rs1, rs2, single_opd)
         dut_result = await output_monitor(dut)
@@ -121,10 +161,13 @@ elif base == 'RV64':
     tf.add_option('XLEN', [64])
     
     
-tf.add_option(('instr','instr_name','single_opd'), [(1, 'addn', 0), (2,'orn',0), (3,'xnor',0), \
-    (4,'clz',1), (5,'clzw',1), (6,'ctz',1), (7,'ctzw',1), (8,'cpop',1), (9,'cpopw',1), \
-        (10,'max',0), (11,'maxu',0), (12,'min',0), (13,'minu',0), (14,'sext_b',1), (15,'sext_h',1), \
-            (16,'zext_h',1), (17,'rol',0), (18,'rolw',0), (19,'ror',0), (24,'clmul',0), (25,'clmulh',0), (26,'clmulr',0)])
+tf.add_option(('instr','instr_name','single_opd'), [(instr_gen('andn'), 'andn', 0), (instr_gen('bclri'), 'bclri', 1)])
+#  (2,'orn',0), (3,'xnor',0), \
+#     (4,'clz',1), (5,'clzw',1), (6,'ctz',1), (7,'ctzw',1), (8,'cpop',1), (9,'cpopw',1), \
+#         (10,'max',0), (11,'maxu',0), (12,'min',0), (13,'minu',0), (14,'sext_b',1), (15,'sext_h',1), \
+#             (16,'zext_h',1), (17,'rol',0), (18,'rolw',0), (19,'ror',0), (24,'clmul',0), (25,'clmulh',0), (26,'clmulr',0), \
+#                 (27,'add_uw',0), (28,'sh1add',0), (29,'sh1add_uw',0), (30,'sh2add',0), (31,'sh2add_uw',0), (32,'sh3add',0), (33,'sh3add_uw',0), \
+#                     (34,'bclr',0), (36,'bext',0), (38,'binv',0), (40,'bset',0) ])
     #if instruction has single operand, provide single_opd = 1 (please see below line).
     ##To run multiple instr - tf.add_option(((('instr','instr_name','single_opd'), [(1, 'addn', 0),(2,'clz',1),(...)])
 

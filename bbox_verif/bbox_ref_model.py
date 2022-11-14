@@ -39,9 +39,9 @@ def CountSetBits(rs, XLEN):
 
 
 #Reference model
-def bbox_rm(instr, rs1, rs2, XLEN):
+def bbox_rm(instr, instr_name, rs1, rs2, XLEN):
     
-    if instr == 1:
+    if instr_name == 'andn':
         res = rs1 & ~rs2
         valid = '1'
     ## logic for all other instr starts 
@@ -209,6 +209,93 @@ def bbox_rm(instr, rs1, rs2, XLEN):
 
         res = res & (2**(XLEN)-1)
         valid = '1'
+
+
+    elif instr == 27:   # ADD_UW
+        index = rs1 & 0xFFFFFFFF
+        res = rs2 + index
+
+        valid = '1'
+
+    elif instr == 28:   # SH1ADD
+        num1 = rs1 << 1
+        res = (num1 + rs2) & (2**(XLEN)-1)
+
+        valid = '1'
+
+    elif instr == 29:   # SH1ADD_UW
+        num1 = (rs1 & 0xFFFFFFFF) << 1
+        res = (num1 + rs2) & (2**(XLEN)-1)
+
+        valid = '1'
+    
+    elif instr == 30:   # SH2ADD
+        num1 = rs1 << 2
+        #num1 = (rs1 << 2) & (2**(XLEN)-1)
+        res = (num1 + rs2) & (2**(XLEN)-1)
+
+        valid = '1'
+
+    elif instr == 31:   # SH2ADD_UW
+        num1 = (rs1 & 0xFFFFFFFF) << 2
+        res = (num1 + rs2) & (2**(XLEN)-1)
+
+        valid = '1'
+    
+    elif instr == 32:   # SH3ADD
+        num1 = rs1 << 3
+        #num1 = (rs1 << 2) & (2**(XLEN)-1)
+        res = (num1 + rs2) & (2**(XLEN)-1)
+
+        valid = '1'
+
+    elif instr == 33:   # SH3ADD_UW
+        num1 = (rs1 & 0xFFFFFFFF) << 3
+        res = (num1 + rs2) & (2**(XLEN)-1)
+
+        valid = '1'
+    
+
+
+    elif instr == 34:   # BCLR
+        index = rs2 & (XLEN - 1)
+        res = rs1 & ~( 1 << index )
+
+        valid = '1'
+    
+    elif instr_name == 'bclri':   # BCLRI
+
+        temp = instr >> 20
+
+        if XLEN == 32:
+            shamt = temp & 0x1F
+        else:
+            shamt = temp & 0x3F
+
+        index = shamt & (XLEN - 1)
+        res = rs1 & ~( 1 << index )
+
+        valid = '1'
+    
+
+    elif instr == 36:   # BEXT
+        index = rs2 & (XLEN - 1)
+        res = (rs1 >> index) & 1
+
+        valid = '1'
+    
+    elif instr == 38:   # BINV
+        index = rs2 & (XLEN - 1)
+        res = rs1 ^ ( 1 << index )
+
+        valid = '1'
+    
+    elif instr == 40:   # BSET
+        index = rs2 & (XLEN - 1)
+        res = rs1 | ( 1 << index )
+
+        valid = '1'
+    
 
 
     ## logic for all other instr ends

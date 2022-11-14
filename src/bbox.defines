@@ -11,7 +11,7 @@ Details: Has the macros used for instruction comparison
 // Add instruction macors here which can be used in the 
 // case statement for understandability and easy modifications.
 
-`define ANDN 'b1
+`define ANDN 32'b0100000??????????111?????0110011
 
 `define ORN 2
 `define XNOR 3
@@ -38,3 +38,24 @@ Details: Has the macros used for instruction comparison
 `define CLMUL 24
 `define CLMULH 25
 `define CLMULR 26
+
+
+// Zba instructions
+
+`define ADD_UW 27
+`define SH1ADD 28
+`define SH1ADD_UW 29
+`define SH2ADD 30
+`define SH2ADD_UW 31
+`define SH3ADD 32
+`define SH3ADD_UW 33
+
+// Zbs instructions
+
+`define BCLR 34
+`define BCLRI 32'b010010???????????001?????0010011
+`define BEXT 36
+
+`define BINV 38
+
+`define BSET 40
