@@ -193,9 +193,8 @@ function Bit#(XLEN) fn_rolw(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
 endfunction
 
 
-// 
-/*  */
-//ROR
+// ROR = Rotate Right
+/* This instruction performs a rotate right of rs1 by the amount in least-significant log2(XLEN) bits of rs2 */
 function Bit#(XLEN) fn_ror(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
   UInt#(XLEN) x = 0;
   case(valueof(XLEN)) matches
@@ -206,8 +205,6 @@ function Bit#(XLEN) fn_ror(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
 endfunction
 
 
-// 
-/*  */
 //RORI
 function Bit#(XLEN) fn_rori(Bit#(XLEN) rs1, Bit#(32) instr);
   UInt#(XLEN) shamt = 0;
@@ -219,8 +216,6 @@ function Bit#(XLEN) fn_rori(Bit#(XLEN) rs1, Bit#(32) instr);
 endfunction
 
 
-// 
-/*  */
 //RORIW
 function Bit#(XLEN) fn_roriw(Bit#(XLEN) rs1, Bit#(32) instr);
   UInt#(XLEN) shamt = unpack(zeroExtend(instr[24:20]));
@@ -230,8 +225,6 @@ function Bit#(XLEN) fn_roriw(Bit#(XLEN) rs1, Bit#(32) instr);
 endfunction
 
 
-// 
-/*  */
 //RORW
 function Bit#(XLEN) fn_rorw(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
   Bit#(XLEN) num1 = zeroExtend(rs1[31:0]);
@@ -241,8 +234,6 @@ function Bit#(XLEN) fn_rorw(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
 endfunction
 
 
-// 
-/*  */
 //ORC.B
 function Bit#(XLEN) fn_orc_b(Bit#(XLEN) rs1); 
   Bit#(XLEN) inp = rs1;
@@ -258,9 +249,8 @@ function Bit#(XLEN) fn_orc_b(Bit#(XLEN) rs1);
 endfunction
 
 
-// 
-/*  */
-//REV8
+// REV8 = Byte-reverse register
+/* This instruction reverses the order of the bytes in rs */
 function Bit#(XLEN) fn_rev8(Bit#(XLEN) rs1);
   Bit#(XLEN) inp = rs1;
   Bit#(XLEN) out = 0;
