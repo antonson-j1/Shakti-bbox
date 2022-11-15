@@ -34,11 +34,11 @@ import bbox_types :: *;
 function BBoxOutput fn_compute(BBoxInput inp);
 
   Bit#(XLEN) result;
-  //Bit#(32) res;
+
   Bool valid;
   case(inp.instr) matches
 
-    // Zbb
+    // ZBB INSTRUCTIONS
 
     `ANDN: begin
       result = truncate(fn_andn(inp.rs1, inp.rs2));
@@ -65,7 +65,6 @@ function BBoxOutput fn_compute(BBoxInput inp);
       valid = True;
     end
 
-
     `CTZ: begin
       result = fn_ctz(inp.rs1);
       valid = True;
@@ -81,14 +80,10 @@ function BBoxOutput fn_compute(BBoxInput inp);
       valid = True;
     end
 
-    //`ifdef RV64
-
     `CPOPW: begin
       result = fn_cpopw(inp.rs1);
       valid = True;
     end
-
-    //`endif 
 
     `MAX: begin
       result = fn_max(inp.rs1, inp.rs2);
@@ -167,7 +162,7 @@ function BBoxOutput fn_compute(BBoxInput inp);
 
 
 
-  // ZBC instructions
+  // ZBC INSTRUCTIONS
 
     `CLMUL: begin
       result = fn_clmul(inp.rs1, inp.rs2);
@@ -185,7 +180,7 @@ function BBoxOutput fn_compute(BBoxInput inp);
     end
 
 
-  // Zba
+  // ZBA INSTRUCTIONS
 
     `ADD_UW: begin
       result = fn_and_uw(inp.rs1, inp.rs2);
@@ -228,7 +223,7 @@ function BBoxOutput fn_compute(BBoxInput inp);
     end
 
 
-  // Zbs
+  // ZBS INSTRUCTIONS
 
     `BCLR: begin
       result = fn_bclr(inp.rs1, inp.rs2);
@@ -276,5 +271,7 @@ function BBoxOutput fn_compute(BBoxInput inp);
       valid = False;
     end
   endcase
+
   return BBoxOutput{valid: valid, data: result};
+
 endfunction

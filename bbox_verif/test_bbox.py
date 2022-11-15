@@ -51,7 +51,6 @@ def btd(s):
     return ans
 
 
-
 def instr_gen(instr_name):
   
 # Zba
@@ -79,7 +78,6 @@ def instr_gen(instr_name):
 
     if instr_name == 'slli_uw':
         return btd('000010' + '000000' + '00000' + '001' + '00000' + '0011011')
-
 
 #Zbb
     if instr_name=='andn':
@@ -142,8 +140,6 @@ def instr_gen(instr_name):
     if instr_name=='ror':
         return btd('0110000' + '00000' + '00000' + '101' + '00000' + '0110011')
 
-
-
     if instr_name == 'rori':
         if(base == 'RV32'):
             num = random.randint(0,31)
@@ -151,7 +147,6 @@ def instr_gen(instr_name):
             shamt = shamt[2:]
             shamt = (5-len(shamt))*'0' + shamt
             return btd('0110000' + shamt + '00000' + '101' + '00000' + '0010011')
-        
         else:
             num = random.randint(0,63)
             shamt = bin(num)
@@ -175,13 +170,10 @@ def instr_gen(instr_name):
     if instr_name=='rev8':
         if(base == 'RV32'):
             return btd('011010011000' + '00000' + '101' + '00000' + '0010011')
-        
         else:
             return btd('011010111000' + '00000' + '101' + '00000' + '0010011')
 
-
 #Zbc
-
     if instr_name=='clmul':
         return btd('0000101' + '00000' + '00000' + '001' + '00000' + '0110011')
     
@@ -191,12 +183,9 @@ def instr_gen(instr_name):
     if instr_name=='clmulr':
         return btd('0000101' + '00000' + '00000' + '010' + '00000' + '0110011')
 
-
 # Zbs 
-
     if instr_name=='bclr':
         return btd('0100100' + '00000' + '00000' + '001' + '00000' + '0110011')
-
 
     if instr_name=='bclri':
         if(base == 'RV32'):
@@ -205,7 +194,6 @@ def instr_gen(instr_name):
             shamt = shamt[2:]
             shamt = (5-len(shamt))*'0' + shamt
             return btd('0100100' + shamt + '00000' + '001' + '00000' + '0010011')
-        
         else:
             num = random.randint(0,63)
             shamt = bin(num)
@@ -216,73 +204,54 @@ def instr_gen(instr_name):
     if instr_name=='bext':
         return btd('0100100' + '00000' + '00000' + '101' + '00000' + '0110011')
 
-
     if instr_name=='bexti':
-        
         if(base == 'RV32'):
             num = random.randint(0,31)
             shamt = bin(num)
             shamt = shamt[2:]
-
             shamt = (5-len(shamt))*'0' + shamt
-
             return btd('0100100' + shamt + '00000' + '101' + '00000' + '0010011')
         else:
             num = random.randint(0,63)
             shamt = bin(num)
             shamt = shamt[2:]
-
             shamt = (6-len(shamt))*'0' + shamt
-
             return btd('010010' + shamt + '00000' + '101' + '00000' + '0010011')
 
     if instr_name=='binv':
         return btd('0110100' + '00000' + '00000' + '001' + '00000' + '0110011')
 
-
     if instr_name=='binvi':
-        
         if(base == 'RV32'):
             num = random.randint(0,31)
             shamt = bin(num)
             shamt = shamt[2:]
-
             shamt = (5-len(shamt))*'0' + shamt
-
             return btd('0110100' + shamt + '00000' + '001' + '00000' + '0010011')
         else:
             num = random.randint(0,63)
             shamt = bin(num)
             shamt = shamt[2:]
-
             shamt = (6-len(shamt))*'0' + shamt
-
             return btd('011010' + shamt + '00000' + '001' + '00000' + '0010011')
 
     if instr_name=='bset':
         return btd('0010100' + '00000' + '00000' + '001' + '00000' + '0110011')
 
-
     if instr_name=='bseti':
-        
         if(base == 'RV32'):
             num = random.randint(0,31)
             shamt = bin(num)
             shamt = shamt[2:]
-
             shamt = (5-len(shamt))*'0' + shamt
-
             return btd('0010100' + shamt + '00000' + '001' + '00000' + '0010011')
         else:
             num = random.randint(0,63)
             shamt = bin(num)
             shamt = shamt[2:]
-
             shamt = (6-len(shamt))*'0' + shamt
-
             return btd('001010' + shamt + '00000' + '001' + '00000' + '0010011')
     
-
 
 #generates clock and reset
 async def initial_setup(dut):
@@ -355,83 +324,113 @@ base = 'RV64'
 #generates tests for instructions of RV32
 if base == 'RV32':
     tf.add_option('XLEN', [32])
-    #tf.add_option(('instr','instr_name','single_opd'), [(1, 'addn', 0), (2,'orn',0), (3,'xnor',0), (4,'clz',1), (5,'clzw',1), (6,'ctz',1), (7,'ctzw',1), (8,'cpop',1)])
-    #if instruction has single operand, provide single_opd = 1 (please see below line).
-    ##To run multiple instr - tf.add_option(((('instr','instr_name','single_opd'), [(1, 'addn', 0),(2,'clz',1),(...)])
+    tf.add_option(('instr','instr_name','single_opd'), \
+        [  
+            #Zba
+            (instr_gen('sh1add'),'sh1add',0),
+            (instr_gen('sh2add'),'sh2add',0),
+            (instr_gen('sh3add'),'sh3add',0),
+
+            #Zbb
+            (instr_gen('andn'), 'andn', 0), 
+            (instr_gen('orn'), 'orn', 0), 
+            (instr_gen('xnor'), 'xnor', 0), 
+            (instr_gen('clz'), 'clz', 1),
+            (instr_gen('ctz'), 'ctz', 1), 
+            (instr_gen('cpop'), 'cpop', 1), 
+            (instr_gen('max'), 'max', 0), 
+            (instr_gen('maxu'), 'maxu', 0), 
+            (instr_gen('min'), 'min', 0), 
+            (instr_gen('minu'), 'minu', 0), 
+            (instr_gen('sext_b'), 'sext_b', 1), 
+            (instr_gen('sext_h'), 'sext_h', 1), 
+            (instr_gen('zext_h'), 'zext_h', 1), 
+            (instr_gen('rol'), 'rol', 0), 
+            (instr_gen('ror'), 'ror', 0), 
+            (instr_gen('rori'), 'rori', 1),
+            (instr_gen('orc_b'), 'orc_b', 1),
+            (instr_gen('rev8'), 'rev8', 1),
+
+
+            #Zbc
+            (instr_gen('clmul'), 'clmul', 0),
+            (instr_gen('clmulh'), 'clmulh', 0),
+            (instr_gen('clmulr'), 'clmulr', 0),
+
+            #Zbs
+            (instr_gen('bclr'), 'bclr', 0), 
+            (instr_gen('bclri'), 'bclri', 1), 
+            (instr_gen('bext'), 'bext', 0), 
+            (instr_gen('bexti'), 'bexti', 1), 
+            (instr_gen('binv'), 'binv', 0), 
+            (instr_gen('binvi'), 'binvi', 1), 
+            (instr_gen('bset'), 'bset', 0), 
+            (instr_gen('bseti'), 'bseti', 1),
+
+        ])
+
 
 #generates tests for instructions of RV64
 elif base == 'RV64':
     tf.add_option('XLEN', [64])
-    
-    
-tf.add_option(('instr','instr_name','single_opd'), \
-    [
-        
-        #Zba
-        (instr_gen('add_uw'),'add_uw',0), 
-        (instr_gen('sh1add'),'sh1add',0), 
-        (instr_gen('sh1add_uw'),'sh1add_uw',0), 
-        (instr_gen('sh2add'),'sh2add',0),
-        (instr_gen('sh2add_uw'),'sh2add_uw',0), 
-        (instr_gen('sh3add'),'sh3add',0), 
-        (instr_gen('sh3add_uw'),'sh3add_uw',0), 
-        (instr_gen('slli_uw'), 'slli_uw', 1), 
 
-        #Zbb
-        (instr_gen('andn'), 'andn', 0), 
-        (instr_gen('orn'), 'orn', 0), 
-        (instr_gen('xnor'), 'xnor', 0), 
-        (instr_gen('clz'), 'clz', 1), 
-        (instr_gen('clzw'), 'clzw', 1), 
-        (instr_gen('ctz'), 'ctz', 1), 
-        (instr_gen('ctzw'), 'ctzw', 1), 
-        (instr_gen('cpop'), 'cpop', 1), 
-        (instr_gen('cpopw'), 'cpopw', 1), 
-        (instr_gen('max'), 'max', 0), 
-        (instr_gen('maxu'), 'maxu', 0), 
-        (instr_gen('min'), 'min', 0), 
-        (instr_gen('minu'), 'minu', 0), 
-        (instr_gen('sext_b'), 'sext_b', 1), 
-        (instr_gen('sext_h'), 'sext_h', 1), 
-        (instr_gen('zext_h'), 'zext_h', 1), 
-        (instr_gen('rol'), 'rol', 0), 
-        (instr_gen('rolw'), 'rolw', 0), 
-        (instr_gen('ror'), 'ror', 0), 
-        (instr_gen('rori'), 'rori', 1),
-        (instr_gen('roriw'), 'roriw', 1),
-        (instr_gen('rorw'), 'rorw', 0),
-        (instr_gen('orc_b'), 'orc_b', 1),
-        (instr_gen('rev8'), 'rev8', 1),
+    tf.add_option(('instr','instr_name','single_opd'), \
+        [  
+            #Zba
+            (instr_gen('add_uw'),'add_uw',0), 
+            (instr_gen('sh1add'),'sh1add',0), 
+            (instr_gen('sh1add_uw'),'sh1add_uw',0), 
+            (instr_gen('sh2add'),'sh2add',0),
+            (instr_gen('sh2add_uw'),'sh2add_uw',0), 
+            (instr_gen('sh3add'),'sh3add',0), 
+            (instr_gen('sh3add_uw'),'sh3add_uw',0), 
+            (instr_gen('slli_uw'), 'slli_uw', 1), 
 
 
+            #Zbb
+            (instr_gen('andn'), 'andn', 0), 
+            (instr_gen('orn'), 'orn', 0), 
+            (instr_gen('xnor'), 'xnor', 0), 
+            (instr_gen('clz'), 'clz', 1), 
+            (instr_gen('clzw'), 'clzw', 1), 
+            (instr_gen('ctz'), 'ctz', 1), 
+            (instr_gen('ctzw'), 'ctzw', 1), 
+            (instr_gen('cpop'), 'cpop', 1), 
+            (instr_gen('cpopw'), 'cpopw', 1), 
+            (instr_gen('max'), 'max', 0), 
+            (instr_gen('maxu'), 'maxu', 0), 
+            (instr_gen('min'), 'min', 0), 
+            (instr_gen('minu'), 'minu', 0), 
+            (instr_gen('sext_b'), 'sext_b', 1), 
+            (instr_gen('sext_h'), 'sext_h', 1), 
+            (instr_gen('zext_h'), 'zext_h', 1), 
+            (instr_gen('rol'), 'rol', 0), 
+            (instr_gen('rolw'), 'rolw', 0), 
+            (instr_gen('ror'), 'ror', 0), 
+            (instr_gen('rori'), 'rori', 1),
+            (instr_gen('roriw'), 'roriw', 1),
+            (instr_gen('rorw'), 'rorw', 0),
+            (instr_gen('orc_b'), 'orc_b', 1),
+            (instr_gen('rev8'), 'rev8', 1),
 
 
-        #Zbc
-        (instr_gen('clmul'), 'clmul', 0),
-        (instr_gen('clmulh'), 'clmulh', 0),
-        (instr_gen('clmulr'), 'clmulr', 0),
+            #Zbc
+            (instr_gen('clmul'), 'clmul', 0),
+            (instr_gen('clmulh'), 'clmulh', 0),
+            (instr_gen('clmulr'), 'clmulr', 0),
 
-        #Zbs
-        (instr_gen('bclr'), 'bclr', 0), 
-        (instr_gen('bclri'), 'bclri', 1), 
-        (instr_gen('bext'), 'bext', 0), 
-        (instr_gen('bexti'), 'bexti', 1), 
-        (instr_gen('binv'), 'binv', 0), 
-        (instr_gen('binvi'), 'binvi', 1), 
-        (instr_gen('bset'), 'bset', 0), 
-        (instr_gen('bseti'), 'bseti', 1),
+            #Zbs
+            (instr_gen('bclr'), 'bclr', 0), 
+            (instr_gen('bclri'), 'bclri', 1), 
+            (instr_gen('bext'), 'bext', 0), 
+            (instr_gen('bexti'), 'bexti', 1), 
+            (instr_gen('binv'), 'binv', 0), 
+            (instr_gen('binvi'), 'binvi', 1), 
+            (instr_gen('bset'), 'bset', 0), 
+            (instr_gen('bseti'), 'bseti', 1),
 
 
-    ])
-
-#  (2,'orn',0), (3,'xnor',0), \
-#     (4,'clz',1), (5,'clzw',1), (6,'ctz',1), (7,'ctzw',1), (8,'cpop',1), (9,'cpopw',1), \
-#         (10,'max',0), (11,'maxu',0), (12,'min',0), (13,'minu',0), (14,'sext_b',1), (15,'sext_h',1), \
-#             (16,'zext_h',1), (17,'rol',0), (18,'rolw',0), (19,'ror',0), (24,'clmul',0), (25,'clmulh',0), (26,'clmulr',0), \
-#                 (27,'add_uw',0), (28,'sh1add',0), (29,'sh1add_uw',0), (30,'sh2add',0), (31,'sh2add_uw',0), (32,'sh3add',0), (33,'sh3add_uw',0), \
-#                     (34,'bclr',0), (36,'bext',0), (38,'binv',0), (40,'bset',0) ])
-    #if instruction has single operand, provide single_opd = 1 (please see below line).
-    ##To run multiple instr - tf.add_option(((('instr','instr_name','single_opd'), [(1, 'addn', 0),(2,'clz',1),(...)])
+        ])
 
 #for each instruction below line generates 10 test vectors, can change to different no.
 tf.add_option('num_of_tests',[10])
