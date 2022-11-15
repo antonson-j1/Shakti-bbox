@@ -81,14 +81,14 @@ function BBoxOutput fn_compute(BBoxInput inp);
       valid = True;
     end
 
-    `ifdef RV64
+    //`ifdef RV64
 
     `CPOPW: begin
       result = fn_cpopw(inp.rs1);
       valid = True;
     end
 
-    `endif 
+    //`endif 
 
     `MAX: begin
       result = fn_max(inp.rs1, inp.rs2);

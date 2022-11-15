@@ -46,47 +46,46 @@ def bbox_rm(instr, instr_name, rs1, rs2, XLEN):
         valid = '1'
     ## logic for all other instr starts 
 
-    ##elif instr == 2:
-    elif instr == 2:
+    elif instr_name == 'orn':
         res = rs1 | ~rs2
         if res < 0:
             res = res + 2**XLEN
         valid = '1'
 
-    elif instr == 3:
+    elif instr_name == 'xnor' :
         res = ~(rs1 ^ rs2)
         if res < 0:
             res = res + 2**XLEN
         valid = '1'
 
-    elif instr == 4:
+    elif instr_name == 'clz' :
         HighestOne = HighestSetBit(rs1, XLEN)
         res = (XLEN-1) - HighestOne
         valid = '1'
 
-    elif instr == 5:
+    elif instr_name == 'clzw' :
         HighestOne = HighestSetBit(rs1, 32)
         res = 31 - HighestOne
         valid = '1'
 
-    elif instr == 6:
+    elif instr_name == 'ctz' :
         res = LowestSetBit(rs1, XLEN)
         valid = '1'
 
-    elif instr == 7:
+    elif instr_name == 'ctzw' :
         res = LowestSetBit(rs1, 32)
         valid = '1'
 
-    elif instr == 8:    # CPOP
+    elif instr_name == 'cpop' :    # CPOP
         res = CountSetBits(rs1, XLEN)
         valid = '1'
 
-    elif instr == 9:    # CPOPW
+    elif instr_name == 'cpopw' :    # CPOPW
         res = CountSetBits(rs1, 32)
         valid = '1'
     
 
-    elif instr == 10:   # MAX
+    elif instr_name == 'max' :   # MAX
         if rs1>>(XLEN-1) & 1 == 0b1:
             rs1 = rs1 - 2**(XLEN)
         if rs2>>(XLEN-1) & 1 == 0b1:
@@ -102,14 +101,14 @@ def bbox_rm(instr, instr_name, rs1, rs2, XLEN):
         valid = '1'
 
 
-    elif instr == 11:   # MAX UNSIGNED
+    elif instr_name == 'maxu' :   # MAX UNSIGNED
         if rs1 > rs2:
             res = rs1
         else:
             res = rs2
         valid = '1'
 
-    elif instr == 12:   # MIN
+    elif instr_name == 'min' :   # MIN
         if rs1>>(XLEN-1) & 1 == 0b1:
             rs1 = rs1 - 2**(XLEN)
         if rs2>>(XLEN-1) & 1 == 0b1:
@@ -124,14 +123,14 @@ def bbox_rm(instr, instr_name, rs1, rs2, XLEN):
             res = res + 2**XLEN
         valid = '1'
 
-    elif instr == 13:   # MIN UNSIGNED
+    elif instr_name == 'minu':   # MIN UNSIGNED
         if rs1 < rs2:
             res = rs1
         else:
             res = rs2
         valid = '1'
 
-    elif instr == 14:   # SEXT B
+    elif instr_name == 'sext_b':   # SEXT B
         if rs1>>7 & 1 == 0b1:
             if XLEN == 32:
                 res = int("0xFFFFFF00",16) + (rs1 & 0xFF)
@@ -141,7 +140,7 @@ def bbox_rm(instr, instr_name, rs1, rs2, XLEN):
             res = rs1 & 0xFF
         valid = '1'
 
-    elif instr == 15:   # SEXT H
+    elif instr_name == 'sext_h':   # SEXT H
         if rs1>>15 & 1 == 0b1:
             if XLEN == 32:
                 res = int("0xFFFF0000",16) + (rs1 & 0xFFFF)
@@ -151,39 +150,32 @@ def bbox_rm(instr, instr_name, rs1, rs2, XLEN):
             res = rs1 & 0xFFFF
         valid = '1'
 
-    elif instr == 16:   # ZEXT H
+    elif instr_name == 'zext_h':   # ZEXT H
         res = rs1 & 0xFFFF
         valid = '1'
 
 
-    elif instr == 17:   # ROL
+    elif instr_name == 'rol':   # ROL
         if XLEN == 32:
             res = ((rs1 << (rs2 & 0x1F)) | (rs1 >> (XLEN - (rs2 & 0x1F)))) & (2**(XLEN)-1)
         else:
             res = ((rs1 << (rs2 & 0x3F)) | (rs1 >> (XLEN - (rs2 & 0x3F)))) & (2**(XLEN)-1)
         valid = '1'
 
-    elif instr == 18:   # ROLW
+    elif instr_name == 'rolw':   # ROLW
        
         rs1 = rs1 & 0xFFFFFFFF
         shamt = rs2 & 0x1F
-        res = (rs1 << shamt) | (rs1 >> (32-shamt))
+        res = ((rs1 << shamt) | (rs1 >> (32-shamt))) & (2**(XLEN)-1)
 
         valid = '1' 
 
-    elif instr == 19:   # ROR
+    elif instr_name == 'ror':   # ROR
         if XLEN == 32:
             res = ((rs1 >> (rs2 & 0x1F)) | (rs1 << (XLEN - (rs2 & 0x1F)))) & (2**(XLEN)-1)
         else:
             res = ((rs1 >> (rs2 & 0x3F)) | (rs1 << (XLEN - (rs2 & 0x3F)))) & (2**(XLEN)-1)
         valid = '1'
-
-    # elif instr == 20:   # RORW
-    #     if XLEN == 32:
-    #         res = ((rs1 >> (rs2 & 0x1F)) | (rs1 << (XLEN - (rs2 & 0x1F)))) & (2**(XLEN)-1)
-    #     else:
-    #         res = ((rs1 >> (rs2 & 0x3F)) | (rs1 << (XLEN - (rs2 & 0x3F)))) & (2**(XLEN)-1)
-    #     valid = '1'
 
     elif instr_name == 'rori':   # RORI
 
@@ -216,7 +208,7 @@ def bbox_rm(instr, instr_name, rs1, rs2, XLEN):
        
         rs1 = rs1 & 0xFFFFFFFF
         shamt = rs2 & 0x1F
-        res = (rs1 >> shamt) | (rs1 << (32-shamt))
+        res = ((rs1 >> shamt) | (rs1 << (32-shamt))) & (2**(XLEN)-1)
 
         valid = '1' 
 
@@ -283,7 +275,7 @@ def bbox_rm(instr, instr_name, rs1, rs2, XLEN):
     # Zba 
     elif instr_name == 'add_uw':   # ADD_UW
         index = rs1 & 0xFFFFFFFF
-        res = rs2 + index
+        res = (rs2 + index) & (2**(XLEN)-1)
 
         valid = '1'
 

@@ -85,6 +85,65 @@ def instr_gen(instr_name):
     if instr_name=='andn':
         return btd('0100000' + '00000' + '00000' + '111' + '00000' + '0110011')
 
+    if instr_name=='orn':
+        return btd('0100000' + '00000' + '00000' + '110' + '00000' + '0110011')
+
+    if instr_name=='xnor':
+        return btd('0100000' + '00000' + '00000' + '100' + '00000' + '0110011')
+
+    if instr_name=='clz':
+        return btd('0110000' + '00000' + '00000' + '001' + '00000' + '0010011')
+
+    if instr_name=='clzw':
+        return btd('0110000' + '00000' + '00000' + '001' + '00000' + '0011011')
+
+    if instr_name=='ctz':
+        return btd('0110000' + '00001' + '00000' + '001' + '00000' + '0010011')
+
+    if instr_name=='ctzw':
+        return btd('0110000' + '00001' + '00000' + '001' + '00000' + '0011011')
+
+    if instr_name=='cpop':
+        return btd('0110000' + '00010' + '00000' + '001' + '00000' + '0010011')
+
+    if instr_name=='cpopw':
+        return btd('0110000' + '00010' + '00000' + '001' + '00000' + '0011011')
+
+    if instr_name=='max':
+        return btd('0000101' + '00000' + '00000' + '110' + '00000' + '0110011')
+
+    if instr_name=='maxu':
+        return btd('0000101' + '00000' + '00000' + '111' + '00000' + '0110011')
+
+    if instr_name=='min':
+        return btd('0000101' + '00000' + '00000' + '100' + '00000' + '0110011')
+
+    if instr_name=='minu':
+        return btd('0000101' + '00000' + '00000' + '101' + '00000' + '0110011')
+
+    if instr_name=='sext_b':
+        return btd('0110000' + '00100' + '00000' + '001' + '00000' + '0010011')
+
+    if instr_name=='sext_h':
+        return btd('0110000' + '00101' + '00000' + '001' + '00000' + '0010011')
+
+    if instr_name=='zext_h':
+        if(base == 'RV32'):
+            return btd('0000100' + '00000' + '00000' + '100' + '00000' + '0110011')
+        else:
+            return btd('0000100' + '00000' + '00000' + '100' + '00000' + '0111011')
+
+    if instr_name=='rol':
+        return btd('0110000' + '00000' + '00000' + '001' + '00000' + '0110011')
+
+    if instr_name=='rolw':
+        return btd('0110000' + '00000' + '00000' + '001' + '00000' + '0111011')
+
+    if instr_name=='ror':
+        return btd('0110000' + '00000' + '00000' + '101' + '00000' + '0110011')
+
+
+
     if instr_name == 'rori':
         if(base == 'RV32'):
             num = random.randint(0,31)
@@ -308,41 +367,59 @@ elif base == 'RV64':
 tf.add_option(('instr','instr_name','single_opd'), \
     [
         
-        # #Zba
-        # (instr_gen('add_uw'),'add_uw',0), 
-        # (instr_gen('sh1add'),'sh1add',0), 
-        # (instr_gen('sh1add_uw'),'sh1add_uw',0), 
-        # (instr_gen('sh2add'),'sh2add',0),
-        # (instr_gen('sh2add_uw'),'sh2add_uw',0), 
-        # (instr_gen('sh3add'),'sh3add',0), 
-        # (instr_gen('sh3add_uw'),'sh3add_uw',0), 
-        # (instr_gen('slli_uw'), 'slli_uw', 1), 
+        #Zba
+        (instr_gen('add_uw'),'add_uw',0), 
+        (instr_gen('sh1add'),'sh1add',0), 
+        (instr_gen('sh1add_uw'),'sh1add_uw',0), 
+        (instr_gen('sh2add'),'sh2add',0),
+        (instr_gen('sh2add_uw'),'sh2add_uw',0), 
+        (instr_gen('sh3add'),'sh3add',0), 
+        (instr_gen('sh3add_uw'),'sh3add_uw',0), 
+        (instr_gen('slli_uw'), 'slli_uw', 1), 
 
         #Zbb
         (instr_gen('andn'), 'andn', 0), 
+        (instr_gen('orn'), 'orn', 0), 
+        (instr_gen('xnor'), 'xnor', 0), 
+        (instr_gen('clz'), 'clz', 1), 
+        (instr_gen('clzw'), 'clzw', 1), 
+        (instr_gen('ctz'), 'ctz', 1), 
+        (instr_gen('ctzw'), 'ctzw', 1), 
+        (instr_gen('cpop'), 'cpop', 1), 
+        (instr_gen('cpopw'), 'cpopw', 1), 
+        (instr_gen('max'), 'max', 0), 
+        (instr_gen('maxu'), 'maxu', 0), 
+        (instr_gen('min'), 'min', 0), 
+        (instr_gen('minu'), 'minu', 0), 
+        (instr_gen('sext_b'), 'sext_b', 1), 
+        (instr_gen('sext_h'), 'sext_h', 1), 
+        (instr_gen('zext_h'), 'zext_h', 1), 
+        (instr_gen('rol'), 'rol', 0), 
+        (instr_gen('rolw'), 'rolw', 0), 
+        (instr_gen('ror'), 'ror', 0), 
         (instr_gen('rori'), 'rori', 1),
         (instr_gen('roriw'), 'roriw', 1),
         (instr_gen('rorw'), 'rorw', 0),
         (instr_gen('orc_b'), 'orc_b', 1),
         (instr_gen('rev8'), 'rev8', 1),
-        
 
 
 
-        # #Zbc
-        # (instr_gen('clmul'), 'clmul', 0),
-        # (instr_gen('clmulh'), 'clmulh', 0),
-        # (instr_gen('clmulr'), 'clmulr', 0),
 
-        # #Zbs
-        # (instr_gen('bclr'), 'bclr', 0), 
-        # (instr_gen('bclri'), 'bclri', 1), 
-        # (instr_gen('bext'), 'bext', 0), 
-        # (instr_gen('bexti'), 'bexti', 1), 
-        # (instr_gen('binv'), 'binv', 0), 
-        # (instr_gen('binvi'), 'binvi', 1), 
-        # (instr_gen('bset'), 'bset', 0), 
-        # (instr_gen('bseti'), 'bseti', 1),
+        #Zbc
+        (instr_gen('clmul'), 'clmul', 0),
+        (instr_gen('clmulh'), 'clmulh', 0),
+        (instr_gen('clmulr'), 'clmulr', 0),
+
+        #Zbs
+        (instr_gen('bclr'), 'bclr', 0), 
+        (instr_gen('bclri'), 'bclri', 1), 
+        (instr_gen('bext'), 'bext', 0), 
+        (instr_gen('bexti'), 'bexti', 1), 
+        (instr_gen('binv'), 'binv', 0), 
+        (instr_gen('binvi'), 'binvi', 1), 
+        (instr_gen('bset'), 'bset', 0), 
+        (instr_gen('bseti'), 'bseti', 1),
 
 
     ])
