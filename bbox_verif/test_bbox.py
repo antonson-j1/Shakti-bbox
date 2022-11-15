@@ -304,7 +304,7 @@ async def TB(dut, XLEN, instr, instr_name, single_opd, num_of_tests, custom_test
     dut._log.info("------------- Test %r of RV%d starts --------------" %(instr_name,XLEN))
     dut._log.info("*******************************************************")
 
-    custom_testing = False          # Change the boolean value to switch between Random and Custom Testing
+    custom_testing = False         # Change the boolean value to switch between Random and Custom Testing
 
     if(not custom_testing):
         # Testing with Random rs1 and rs2

@@ -1,6 +1,5 @@
 /* ZBA INSTRUCTIONS */
 
-
 // AND.UW = Add unsigned word
 /* This instruction performs an XLEN-wide addition between rs2 
 and the zero-extended least-significant word of rs1. */
