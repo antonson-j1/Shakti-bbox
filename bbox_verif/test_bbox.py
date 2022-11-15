@@ -53,11 +53,7 @@ def btd(s):
 
 
 def instr_gen(instr_name):
-    if instr_name=='andn':
-        return btd('0100000' + '00000' + '00000' + '111' + '00000' + '0110011')
-
-
-
+  
 # Zba
 
     if instr_name == 'add_uw':
@@ -83,6 +79,58 @@ def instr_gen(instr_name):
 
     if instr_name == 'slli_uw':
         return btd('000010' + '000000' + '00000' + '001' + '00000' + '0011011')
+
+
+#Zbb
+    if instr_name=='andn':
+        return btd('0100000' + '00000' + '00000' + '111' + '00000' + '0110011')
+
+    if instr_name == 'rori':
+        if(base == 'RV32'):
+            num = random.randint(0,31)
+            shamt = bin(num)
+            shamt = shamt[2:]
+            shamt = (5-len(shamt))*'0' + shamt
+            return btd('0110000' + shamt + '00000' + '101' + '00000' + '0010011')
+        
+        else:
+            num = random.randint(0,63)
+            shamt = bin(num)
+            shamt = shamt[2:]
+            shamt = (6-len(shamt))*'0' + shamt
+            return btd('011000' + shamt + '00000' + '101' + '00000' + '0010011')
+
+    if instr_name == 'roriw':
+        num = random.randint(0,31)
+        shamt = bin(num)
+        shamt = shamt[2:]
+        shamt = (5-len(shamt))*'0' + shamt
+        return btd('0110000' + shamt + '00000' + '101' + '00000' + '0011011')
+    
+    if instr_name=='rorw':
+        return btd('0110000' + '00000' + '00000' + '101' + '00000' + '0111011')
+
+    if instr_name=='orc_b':
+        return btd('001010000111' + '00000' + '101' + '00000' + '0010011')
+
+    if instr_name=='rev8':
+        if(base == 'RV32'):
+            return btd('011010011000' + '00000' + '101' + '00000' + '0010011')
+        
+        else:
+            return btd('011010111000' + '00000' + '101' + '00000' + '0010011')
+
+
+#Zbc
+
+    if instr_name=='clmul':
+        return btd('0000101' + '00000' + '00000' + '001' + '00000' + '0110011')
+    
+    if instr_name=='clmulh':
+        return btd('0000101' + '00000' + '00000' + '011' + '00000' + '0110011')
+    
+    if instr_name=='clmulr':
+        return btd('0000101' + '00000' + '00000' + '010' + '00000' + '0110011')
 
 
 # Zbs 
@@ -112,7 +160,6 @@ def instr_gen(instr_name):
 
     if instr_name=='bexti':
         
-
         if(base == 'RV32'):
             num = random.randint(0,31)
             shamt = bin(num)
@@ -136,7 +183,6 @@ def instr_gen(instr_name):
 
     if instr_name=='binvi':
         
-
         if(base == 'RV32'):
             num = random.randint(0,31)
             shamt = bin(num)
@@ -160,7 +206,6 @@ def instr_gen(instr_name):
 
     if instr_name=='bseti':
         
-
         if(base == 'RV32'):
             num = random.randint(0,31)
             shamt = bin(num)
@@ -178,18 +223,6 @@ def instr_gen(instr_name):
 
             return btd('001010' + shamt + '00000' + '001' + '00000' + '0010011')
     
-
-
-
-    if instr_name=='clmul':
-        return btd('0000101' + '00000' + '00000' + '001' + '00000' + '0110011')
-    
-    if instr_name=='clmulh':
-        return btd('0000101' + '00000' + '00000' + '011' + '00000' + '0110011')
-    
-    if instr_name=='clmulr':
-        return btd('0000101' + '00000' + '00000' + '010' + '00000' + '0110011')
-
 
 
 #generates clock and reset
@@ -273,13 +306,47 @@ elif base == 'RV64':
     
     
 tf.add_option(('instr','instr_name','single_opd'), \
-    [(instr_gen('andn'), 'andn', 0), \
-        (instr_gen('add_uw'),'add_uw',0), (instr_gen('sh1add'),'sh1add',0), (instr_gen('sh1add_uw'),'sh1add_uw',0), (instr_gen('sh2add'),'sh2add',0), \
-            (instr_gen('sh2add_uw'),'sh2add_uw',0), (instr_gen('sh3add'),'sh3add',0), (instr_gen('sh3add_uw'),'sh3add_uw',0), (instr_gen('slli_uw'), 'slli_uw', 1), \
-    # (instr_gen('bclr'), 'bclr', 0), (instr_gen('bclri'), 'bclri', 1), (instr_gen('bext'), 'bext', 0), (instr_gen('bexti'), 'bexti', 1), \
-    #     (instr_gen('binv'), 'binv', 0), (instr_gen('binvi'), 'binvi', 1), (instr_gen('bset'), 'bset', 0), (instr_gen('bseti'), 'bseti', 1), \
-    #          (18,'rolw',0)
+    [
+        
+        # #Zba
+        # (instr_gen('add_uw'),'add_uw',0), 
+        # (instr_gen('sh1add'),'sh1add',0), 
+        # (instr_gen('sh1add_uw'),'sh1add_uw',0), 
+        # (instr_gen('sh2add'),'sh2add',0),
+        # (instr_gen('sh2add_uw'),'sh2add_uw',0), 
+        # (instr_gen('sh3add'),'sh3add',0), 
+        # (instr_gen('sh3add_uw'),'sh3add_uw',0), 
+        # (instr_gen('slli_uw'), 'slli_uw', 1), 
+
+        #Zbb
+        (instr_gen('andn'), 'andn', 0), 
+        (instr_gen('rori'), 'rori', 1),
+        (instr_gen('roriw'), 'roriw', 1),
+        (instr_gen('rorw'), 'rorw', 0),
+        (instr_gen('orc_b'), 'orc_b', 1),
+        (instr_gen('rev8'), 'rev8', 1),
+        
+
+
+
+        # #Zbc
+        # (instr_gen('clmul'), 'clmul', 0),
+        # (instr_gen('clmulh'), 'clmulh', 0),
+        # (instr_gen('clmulr'), 'clmulr', 0),
+
+        # #Zbs
+        # (instr_gen('bclr'), 'bclr', 0), 
+        # (instr_gen('bclri'), 'bclri', 1), 
+        # (instr_gen('bext'), 'bext', 0), 
+        # (instr_gen('bexti'), 'bexti', 1), 
+        # (instr_gen('binv'), 'binv', 0), 
+        # (instr_gen('binvi'), 'binvi', 1), 
+        # (instr_gen('bset'), 'bset', 0), 
+        # (instr_gen('bseti'), 'bseti', 1),
+
+
     ])
+
 #  (2,'orn',0), (3,'xnor',0), \
 #     (4,'clz',1), (5,'clzw',1), (6,'ctz',1), (7,'ctzw',1), (8,'cpop',1), (9,'cpopw',1), \
 #         (10,'max',0), (11,'maxu',0), (12,'min',0), (13,'minu',0), (14,'sext_b',1), (15,'sext_h',1), \

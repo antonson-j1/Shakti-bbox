@@ -141,3 +141,75 @@ function Bit#(XLEN) fn_ror(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
   endcase
   return zeroExtend(rs1 >> x) | zeroExtend( rs1 << (fromInteger(valueOf(XLEN)) - x ) ) ;
 endfunction
+
+
+//RORI
+function Bit#(XLEN) fn_rori(Bit#(XLEN) rs1, Bit#(32) instr);
+
+  UInt#(XLEN) shamt = 0;
+
+ case(valueof(XLEN)) matches
+      64: shamt = unpack(zeroExtend(instr[25:20]));
+      32: shamt = unpack(zeroExtend(instr[24:20]));
+  endcase
+  
+  return zeroExtend(rs1 >> shamt) | zeroExtend( rs1 << (fromInteger(valueOf(XLEN)) - shamt ) ) ;
+
+endfunction
+
+
+//RORIW
+function Bit#(XLEN) fn_roriw(Bit#(XLEN) rs1, Bit#(32) instr);
+
+  UInt#(XLEN) shamt = unpack(zeroExtend(instr[24:20]));
+  Bit#(XLEN) rs1_data = zeroExtend(rs1[31:0]);
+  Bit#(XLEN) result = (rs1_data >> shamt) | ( rs1_data << (fromInteger(valueOf(XLEN)) - shamt ) ) ;
+  return signExtend(result[31:0]);
+
+endfunction
+
+
+//RORW
+function Bit#(XLEN) fn_rorw(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
+  Bit#(XLEN) num1 = zeroExtend(rs1[31:0]);
+  Bit#(XLEN) x = zeroExtend(rs2[4:0]);
+  Int#(XLEN) shamt = unpack(x);
+  return signExtend((num1 >> shamt) | (num1 << (32 - shamt)));
+endfunction
+
+
+//ORC.B
+function Bit#(XLEN) fn_orc_b(Bit#(XLEN) rs1); 
+  Bit#(XLEN) inp = rs1;
+  Bit#(XLEN) out = 0;
+  
+  Bit#(8) zeroes = 8'b00000000;
+  Bit#(8) ones = 8'b11111111;
+  
+  for(Integer i=0; i <= (valueof(XLEN)-8); i=i+8)
+  begin
+    if(inp[i+7:i] == zeroes) out[i+7:i] = zeroes;
+    else out[i+7:i] = ones;
+  end
+  return out;
+endfunction
+
+
+//REV8
+function Bit#(XLEN) fn_rev8(Bit#(XLEN) rs1);
+  Bit#(XLEN) inp = rs1;
+  Bit#(XLEN) out = 0;
+  
+  Integer j = valueof(XLEN) - 1;
+  Bit#(8) temp = 0;
+  
+  for(Integer i=0; i <= (valueof(XLEN)-8); i=i+8)
+  begin
+    temp = inp[j:j-7];
+    out[i+7:i] = temp;
+    j = j-8;
+  end
+  return out;
+
+endfunction
+

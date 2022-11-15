@@ -37,6 +37,9 @@ function BBoxOutput fn_compute(BBoxInput inp);
   //Bit#(32) res;
   Bool valid;
   case(inp.instr) matches
+
+    // Zbb
+
     `ANDN: begin
       result = truncate(fn_andn(inp.rs1, inp.rs2));
       valid = True;
@@ -137,9 +140,34 @@ function BBoxOutput fn_compute(BBoxInput inp);
       valid = True;
     end
 
+    `RORI: begin
+      result = fn_rori(inp.rs1, inp.instr);
+      valid = True;
+    end
+
+    `RORIW: begin
+      result = fn_roriw(inp.rs1, inp.instr);
+      valid = True;
+    end
+
+    `RORW: begin
+      result = fn_rorw(inp.rs1, inp.rs2);
+      valid = True;
+    end
+
+    `ORC_B: begin
+      result = fn_orc_b(inp.rs1);
+      valid = True;
+    end
+
+    `REV8: begin
+      result = fn_rev8(inp.rs1);
+      valid = True;
+    end
 
 
-    // ZBC instructions
+
+  // ZBC instructions
 
     `CLMUL: begin
       result = fn_clmul(inp.rs1, inp.rs2);
@@ -157,7 +185,7 @@ function BBoxOutput fn_compute(BBoxInput inp);
     end
 
 
-
+  // Zba
 
     `ADD_UW: begin
       result = fn_and_uw(inp.rs1, inp.rs2);
@@ -200,7 +228,7 @@ function BBoxOutput fn_compute(BBoxInput inp);
     end
 
 
-
+  // Zbs
 
     `BCLR: begin
       result = fn_bclr(inp.rs1, inp.rs2);

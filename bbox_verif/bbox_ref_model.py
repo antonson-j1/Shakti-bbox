@@ -164,11 +164,7 @@ def bbox_rm(instr, instr_name, rs1, rs2, XLEN):
         valid = '1'
 
     elif instr == 18:   # ROLW
-        # res = ((rs1 << (rs2 & 0x1F)) | (rs1 >> (32 - (rs2 & 0x1F)))) & (2**(32)-1)
-        # if ((res >> 31)&1 == 1) and (XLEN == 64):
-        #     res = res | 0xFFFFFFFF00000000
-        # valid = '1'
-
+       
         rs1 = rs1 & 0xFFFFFFFF
         shamt = rs2 & 0x1F
         res = (rs1 << shamt) | (rs1 >> (32-shamt))
@@ -189,9 +185,73 @@ def bbox_rm(instr, instr_name, rs1, rs2, XLEN):
     #         res = ((rs1 >> (rs2 & 0x3F)) | (rs1 << (XLEN - (rs2 & 0x3F)))) & (2**(XLEN)-1)
     #     valid = '1'
 
+    elif instr_name == 'rori':   # RORI
+
+        temp = instr >> 20
+
+        if XLEN == 32:
+            shamt = temp & 0x1F
+        else:
+            shamt = temp & 0x3F
+
+        res = ((rs1 >> shamt) | (rs1 << (XLEN - shamt))) & (2**(XLEN)-1)
+        valid = '1'
+
+    elif instr_name == 'roriw':   # RORIW
+
+        shamt = (instr >> 20) & 0x1F
+        rs1_data = rs1 & 0xFFFFFFFF
+        
+        res = ((rs1_data >> shamt) | (rs1_data << (XLEN - shamt))) & (0xFFFFFFFF)
+        
+        if res>>31 & 1 == 0b1:
+            res |= 0xFFFFFFFF00000000
+        
+        res &= (2**(XLEN)-1)
+        
+        valid = '1'
 
 
-    # ZBB instructions
+    elif instr_name == 'rorw':   # RORW
+       
+        rs1 = rs1 & 0xFFFFFFFF
+        shamt = rs2 & 0x1F
+        res = (rs1 >> shamt) | (rs1 << (32-shamt))
+
+        valid = '1' 
+
+    elif instr_name == 'orc_b':   # ORC_B
+        out = 0
+        inp = rs1
+
+        for i in range(0, int((XLEN-8)/8)+1):
+            if ( (inp >> (8*i)) & 0xFF == 0x00):
+                out |= 0x00 << (8*i)
+            else:
+                out |= 0xFF << (8*i)
+
+        res = out
+
+        valid = '1' 
+
+    elif instr_name == 'rev8':   # REV8
+        out = 0
+        inp = rs1
+        j = XLEN-1
+
+        for i in range(0, int((XLEN-8)/8)+1):
+            out = out << 8
+            out |= ((inp >> 8*i) & 0xFF)  
+            
+        res = out
+        res &= (2**(XLEN)-1)
+        
+
+        valid = '1' 
+
+
+    
+    # Zbc 
     elif instr_name == 'clmul':   # CLMUL
         res = 0
         for i in range(0, XLEN):
@@ -220,6 +280,7 @@ def bbox_rm(instr, instr_name, rs1, rs2, XLEN):
         valid = '1'
 
 
+    # Zba 
     elif instr_name == 'add_uw':   # ADD_UW
         index = rs1 & 0xFFFFFFFF
         res = rs2 + index
@@ -273,7 +334,7 @@ def bbox_rm(instr, instr_name, rs1, rs2, XLEN):
 
     
 
-
+    #Zbs
     elif instr_name == 'bclr':   # BCLR
         index = rs2 & (XLEN - 1)
         res = rs1 & ~( 1 << index )
