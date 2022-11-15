@@ -1,4 +1,6 @@
-# BitManip Extension project
+# BitManip Extension
+
+# CS6320 - CAD for VLSI - Course Project
 
 ## Introduction:
 
@@ -42,12 +44,82 @@ The image below shows the prefect working of all the 32 instructions of RV32 Bit
 ### Custom generated corner case testing:
 
 #### RV64:
+The image below shows the prefect working of all the 43 instructions of RV64 Bit Manip, iterated over a set of custom corner case test input register values. Each instruction was tested against 4 custom generated edge case test vectors. The results were verfied using a Testbench made using cocotb. 
 
-The image below 
+![image](https://user-images.githubusercontent.com/60357885/201980566-373c3c60-9e36-4318-a2ac-4743e118508b.png)
+
+#### RV32:
+The image below shows the prefect working of all the 32 instructions of RV32 Bit Manip, iterated over a set of custom corner case test input register values. Each instruction was tested against 4 custom generated edge case test vectors. The results were verfied using a Testbench made using cocotb. 
+
+![image](https://user-images.githubusercontent.com/60357885/201981166-91431665-dfa7-409f-b99c-9856fa3dc427.png)
+
+
+## Instructions for Testing:
+
+### To Run:
+
+We modified the 'makefile' to include clean build everytime we simulate. This will ensure that the while changing the MACROS, the changes get aptly reflected during testing.
+
+- For testing, use the following command:
+```bash
+$ make simulate
+```
+
+
+### Changing from RV64 to RV32 and viceversa:
+
+By default, RV64 instructions are used for testing. 
+
+If we want to test for `RV32`:
+
+1. Change the variable `base = 'RV64'` to `base = 'RV32' in `\bbox_verif\test_bbox.py`
+2. Change the macro `BSCDEFINES = RV64` to `BSCDEFINES = RV32` in `\Makefile`
+
+
+If we want to test again for `RV64`, revert back the above done changes.
+
+
+### Changing from "Random Input Vector Testing" to "Custom Corner Case Input Tetsing":
+
+- Change the variable `custom_testing = False` to `custom_testing = True` in `\src\test_bbox.py` to do Corner Case Testing.
+- To do Random Input Vector Testing, use `custom_testing = False` again.
+
+
+## Changes made:
+
+- `\bbox_verif\test_bbox.py` was changed to accomdate for Random Test vector generation testing as well as custom corner case testing.
+- `\bbox_verif\bbox_ref_model.py` was changed to include the python test functions for all the 43 instructions.
+- `Zba.bsv`, `Zbb.bsv`, `Zbc.bsv`, and `Zbs.bsv` files which contain Bluespec functions were created in `\src\`
+- `\src\bbox.defines` has all the instructions and their corresponding general instruction format, to be used for case statements in `compute.bsv`
+- `\src\compute.bsv` all the implememted instructions are called/instantiated in this module depending on the instruction being used.
+
+
+## Contribution by Members:
+
+### 1. Antonson (EE19B025):
+
+- Implemented all the Zbc instructions, and most of Zbb instrutions.
+	- 21 bit manipulation instruction were implemented.
+- Added extenstive comments.
+- Finished the Readme.md
+
+
+### 2. Likith Sai (EE19B080):
+
+- Implemented all the Zba instructions, Zbs instrutions and some of Zbb instructions.
+	- 21 bit manipulation instruction were implemented.
+- Implemented Custom Corner Case Testing Testbench.
+- Optimised the hardware bluespec implementation.
 
 
 
-Students are required to read through the Bit Manipulation Spec by RISC-V and implement it in **Bluespec** and verify it using **cocotb**. The spec pdf is present in docs/bitmanip-1.0.0-38-g865e7a7.pdf .
+
+## Other Details:
+
+Bit Manipulation Spec by RISC-V was implemented in **Bluespec** and verified it using **cocotb**. 
+
+The spec pdf referred is `docs/bitmanip-1.0.0-38-g865e7a7.pdf`. "Bluespec reference guide" was used to aid and optimise the design process. 
+
 
 ### The repo structure is as follows:
 - bbox.bsv - The top module of the design. Has the interface definition and module definition which calls the BitManip calculation.
@@ -62,30 +134,11 @@ Students are required to read through the Bit Manipulation Spec by RISC-V and im
 	- bbox_ref_model.py - This file consists reference model which used in verifying the design (DUT). For more info, check Task description provided 				in this file.
 - docs/ - The directory where the bitmanip spec pdf, instructions for Tool Setup and some FAQs are present. 
 
-### Steps to run:
-Make sure you have installed all the required tools as mentioned in docs/Tool_setup.pdf and the python environment is activated.
-
-1. To just generate the verilog
-```bash
-$ make generate_verilog
-```
-2. To simulate. NOTE: Does both generate_verilog and simulate.
-```bash
-$ make simulate
-```
-3. To clean the build.
-```bash
-$ make clean_build
-```
-
-**_NOTE:_** Change BSCDEFINES macro in Makefile to RV64/RV32 according to use. 
 
 ### More info for Verification
 
 ```bash
-1. First-time run - $ make simulate
-   Subsequent runs - $ make clean_build
-   		     $ make simulate
+1. To run - $ make simulate
 ```
 ```bash
 2. To check waveforms, - Once simulation completes, dump.vcd is created in bbox/
@@ -96,9 +149,3 @@ $ make clean_build
 	$ sudo apt update
 	$ sudo apt install gtkwave
 ```    
-
-### Evaluation Criteria:
-- Design code (bsv) has to be documented with proper comments and design intent
-- Every team member should check-in their code contribution using their own GitLab id for individual evaluation
-- Verification code (python) has to be documented with proper comments providing the test case explanation
-- A final Report.md should be updated providing the steps to run the tests and the instructions implemented along with test run report.
