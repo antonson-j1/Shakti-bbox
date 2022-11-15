@@ -41,7 +41,7 @@ from cocotb.regression import TestFactory
 from bbox_ref_model import bbox_rm
 
 
-
+# Function of convert binary to decimal
 def btd(s):
     ans = 0
     n = len(s)
@@ -51,8 +51,10 @@ def btd(s):
     return ans
 
 
+# Function to generate the general instruction format, given the instruction name.
+# Instead of "?", 0's were used, as they anyway will not be affecting the execution.
+
 def instr_gen(instr_name):
-  
 # Zba
 
     if instr_name == 'add_uw':
