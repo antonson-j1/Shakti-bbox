@@ -1,7 +1,7 @@
 TOPFILE=bbox.bsv
 BSVINCDIR=.:%/Libraries:./src
 
-BSCDEFINES=RV64
+BSCDEFINES=RV32
 #To run tests for RV32, change base = 'RV32'
 
 VERILOGDIR=verilog/

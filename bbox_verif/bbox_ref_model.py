@@ -59,22 +59,82 @@ def bbox_rm(instr, instr_name, rs1, rs2, XLEN):
         valid = '1'
 
     elif instr_name == 'clz' :
-        HighestOne = HighestSetBit(rs1, XLEN)
-        res = (XLEN-1) - HighestOne
+        # HighestOne = HighestSetBit(rs1, XLEN)
+        # res = (XLEN-1) - HighestOne
+        # if res < 0:
+        #     res = res + 2**XLEN
+        # valid = '1'
+        
+        bits = [ 0 for i in range(XLEN)]
+        for i in range(XLEN):
+            last_bit = rs1 % 2
+            bits[XLEN-1-i] = last_bit
+            rs1 >>= 1
+
+        count = 0        
+        for i in range(XLEN):
+            if(bits[i]==1):
+                break
+            count += 1
+        res = count
         valid = '1'
 
     elif instr_name == 'clzw' :
-        HighestOne = HighestSetBit(rs1, 32)
-        res = 31 - HighestOne
+        # HighestOne = HighestSetBit(rs1, 32)
+        # res = 31 - HighestOne
+        # if res < 0:
+        #     res = res + 2**XLEN
+        # valid = '1'
+        rs1 &= 0xFFFFFFFF
+        bits = [ 0 for i in range(32)]
+        for i in range(32):
+            last_bit = rs1 % 2
+            bits[31-i] = last_bit
+            rs1 >>= 1
+        
+        count = 0
+        for i in range(32):
+            if(bits[i]==1):
+                break
+            count += 1
+        res = count
         valid = '1'
+
 
     elif instr_name == 'ctz' :
-        res = LowestSetBit(rs1, XLEN)
+        # res = LowestSetBit(rs1, XLEN)
+        # if res < 0:
+        #     res = res + 2**XLEN
+        # valid = '1'
+
+        count = 0        
+        for i in range(XLEN):
+            last_bit = rs1 % 2
+            if(last_bit == 1):
+                break
+            count += 1
+            rs1 >>= 1
+        res = count
         valid = '1'
 
+
     elif instr_name == 'ctzw' :
-        res = LowestSetBit(rs1, 32)
+        # res = LowestSetBit(rs1, 32)
+        # if res < 0:
+        #     res = res + 2**XLEN
+        # valid = '1'
+
+        rs1 &= 0xFFFFFFFF
+        count = 0        
+        for i in range(32):
+            last_bit = rs1 % 2
+            if(last_bit == 1):
+                break
+            count += 1
+            rs1 >>= 1
+        res = count
         valid = '1'
+
 
     elif instr_name == 'cpop' :    # CPOP
         res = CountSetBits(rs1, XLEN)

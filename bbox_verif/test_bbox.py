@@ -296,20 +296,43 @@ async def scoreboard(dut, dut_result, rm_result):
     dut._log.info("-------------------------------------------------------")
 
 #Testbench
-async def TB(dut, XLEN, instr, instr_name, single_opd, num_of_tests):
+async def TB(dut, XLEN, instr, instr_name, single_opd, num_of_tests, custom_testing = False):
     await initial_setup(dut)
     dut._log.info("*******************************************************")
     dut._log.info("------------- Test %r of RV%d starts --------------" %(instr_name,XLEN))
     dut._log.info("*******************************************************")
-    for i in range (num_of_tests):
-        rs1 = random.randint(0,(2**XLEN)-1) 
-        rs2 = random.randint(0,(2**XLEN)-1)
-        rm_result = bbox_rm(instr, instr_name, rs1, rs2, XLEN)
-    
-        await input_driver(dut, instr, rs1, rs2, single_opd)
-        dut_result = await output_monitor(dut)
-    
-        await scoreboard(dut, dut_result, rm_result)	
+
+    custom_testing = True          # Change the boolean value to switch between Random and Custom Testing
+
+    if(not custom_testing):
+        # Testing with Random rs1 and rs2
+        for i in range (num_of_tests):
+            rs1 = random.randint(0,(2**XLEN)-1) 
+            rs2 = random.randint(0,(2**XLEN)-1)
+            rm_result = bbox_rm(instr, instr_name, rs1, rs2, XLEN)
+        
+            await input_driver(dut, instr, rs1, rs2, single_opd)
+            dut_result = await output_monitor(dut)
+        
+            await scoreboard(dut, dut_result, rm_result)	
+
+    else:
+        # Custom Testing with extreme inputs
+        custom_num = 4
+        rs1_perm = [0, 0, (2**XLEN)-1, (2**XLEN)-1]
+        rs2_perm = [0, (2**XLEN)-1, 0, (2**XLEN)-1]
+
+        for i in range (custom_num):
+            rs1 = rs1_perm[i] 
+            rs2 = rs2_perm[i]
+            rm_result = bbox_rm(instr, instr_name, rs1, rs2, XLEN)
+        
+            await input_driver(dut, instr, rs1, rs2, single_opd)
+            dut_result = await output_monitor(dut)
+        
+            await scoreboard(dut, dut_result, rm_result)
+        # Custom Testing END
+            
     dut._log.info("*******************************************************")
     dut._log.info("------------- Test %r of RV%d ends ----------------" %(instr_name,XLEN))
     dut._log.info("*******************************************************")
@@ -318,7 +341,7 @@ async def TB(dut, XLEN, instr, instr_name, single_opd, num_of_tests):
 # generates sets of tests based on the different permutations of the possible arguments to the test function
 tf = TestFactory(TB)
 
-base = 'RV64'
+base = 'RV32'
 #To run tests for RV32, change base = 'RV32'
 
 #generates tests for instructions of RV32
