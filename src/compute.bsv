@@ -194,6 +194,12 @@ function BBoxOutput fn_compute(BBoxInput inp);
       valid = True;
     end
 
+    `SLLI_UW: begin
+      result = fn_slli_uw(inp.rs1, inp.instr);
+      valid = True;
+    end
+
+
 
 
     `BCLR: begin

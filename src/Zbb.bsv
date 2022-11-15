@@ -2,6 +2,7 @@ function Bit#(XLEN) fn_andn(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
   return rs1 & ~rs2;
 endfunction
 
+/////////////////////////////////////////////////////////////
 
 function Bit#(XLEN) fn_orn(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
   return rs1 | ~rs2;
@@ -43,7 +44,7 @@ function Bit#(XLEN) fn_ctz(Bit#(XLEN) rs);
   endcase
 endfunction
 
- `ifdef RV64
+// `ifdef RV64
 
 function Bit#(XLEN) fn_ctzw(Bit#(XLEN) rs);
   Bit#(32) result=0;
@@ -51,7 +52,7 @@ function Bit#(XLEN) fn_ctzw(Bit#(XLEN) rs);
   return signExtend(result[31:0]);
 endfunction
 
- `endif
+// `endif
 
 function Bit#(XLEN) fn_cpop(Bit#(XLEN) rs) ;
   Bit#(XLEN) result=0;
@@ -126,8 +127,9 @@ endfunction
 //ROLW
 function Bit#(XLEN) fn_rolw(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
   Bit#(XLEN) x = zeroExtend(rs2[4:0]);
+  Int#(XLEN) shamt = unpack(x);
   Bit#(XLEN) src1 = zeroExtend(rs1[31:0]);
-  return signExtend((src1 << x) | (src1 >> (32 - x)));
+  return signExtend((src1 << shamt) | (src1 >> (32 - shamt)));
 endfunction
 
 //ROR

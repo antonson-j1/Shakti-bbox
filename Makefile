@@ -10,7 +10,7 @@ BUILDDIR=intermediate/
 include bbox_verif/Makefile.verif
 
 .PHONY: simulate
-simulate: 
+simulate: clean_build
 	@make generate_verilog 
 	@make sim
 
@@ -26,3 +26,4 @@ clean_build:
 	@rm -rf bbox_verif/__pycache__
 	@rm -rf results.xml
 	@echo "Cleaned"
+ 

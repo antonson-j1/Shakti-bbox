@@ -164,10 +164,16 @@ def bbox_rm(instr, instr_name, rs1, rs2, XLEN):
         valid = '1'
 
     elif instr == 18:   # ROLW
-        res = ((rs1 << (rs2 & 0x1F)) | (rs1 >> (32 - (rs2 & 0x1F)))) & (2**(32)-1)
-        if ((res >> 31)&1 == 1) and (XLEN == 64):
-            res = res | 0xFFFFFFFF00000000
-        valid = '1'
+        # res = ((rs1 << (rs2 & 0x1F)) | (rs1 >> (32 - (rs2 & 0x1F)))) & (2**(32)-1)
+        # if ((res >> 31)&1 == 1) and (XLEN == 64):
+        #     res = res | 0xFFFFFFFF00000000
+        # valid = '1'
+
+        rs1 = rs1 & 0xFFFFFFFF
+        shamt = rs2 & 0x1F
+        res = (rs1 << shamt) | (rs1 >> (32-shamt))
+
+        valid = '1' 
 
     elif instr == 19:   # ROR
         if XLEN == 32:
@@ -214,49 +220,57 @@ def bbox_rm(instr, instr_name, rs1, rs2, XLEN):
         valid = '1'
 
 
-    elif instr == 27:   # ADD_UW
+    elif instr_name == 'add_uw':   # ADD_UW
         index = rs1 & 0xFFFFFFFF
         res = rs2 + index
 
         valid = '1'
 
-    elif instr == 28:   # SH1ADD
+    elif instr_name == 'sh1add':   # SH1ADD
         num1 = rs1 << 1
         res = (num1 + rs2) & (2**(XLEN)-1)
 
         valid = '1'
 
-    elif instr == 29:   # SH1ADD_UW
+    elif instr_name == 'sh1add_uw':   # SH1ADD_UW
         num1 = (rs1 & 0xFFFFFFFF) << 1
         res = (num1 + rs2) & (2**(XLEN)-1)
 
         valid = '1'
     
-    elif instr == 30:   # SH2ADD
+    elif instr_name == 'sh2add':   # SH2ADD
         num1 = rs1 << 2
         #num1 = (rs1 << 2) & (2**(XLEN)-1)
         res = (num1 + rs2) & (2**(XLEN)-1)
 
         valid = '1'
 
-    elif instr == 31:   # SH2ADD_UW
+    elif instr_name == 'sh2add_uw':   # SH2ADD_UW
         num1 = (rs1 & 0xFFFFFFFF) << 2
         res = (num1 + rs2) & (2**(XLEN)-1)
 
         valid = '1'
     
-    elif instr == 32:   # SH3ADD
+    elif instr_name == 'sh3add':   # SH3ADD
         num1 = rs1 << 3
         #num1 = (rs1 << 2) & (2**(XLEN)-1)
         res = (num1 + rs2) & (2**(XLEN)-1)
 
         valid = '1'
 
-    elif instr == 33:   # SH3ADD_UW
+    elif instr_name == 'sh3add_uw':   # SH3ADD_UW
         num1 = (rs1 & 0xFFFFFFFF) << 3
         res = (num1 + rs2) & (2**(XLEN)-1)
 
         valid = '1'
+
+    elif instr_name == 'slli_uw':   # SLLI_UW
+
+        shamt = (instr >> 20) & 0x3F
+        res = ((rs1 & 0xFFFFFFFF) << shamt) & (2**(XLEN)-1)
+       
+        valid = '1'
+
     
 
 

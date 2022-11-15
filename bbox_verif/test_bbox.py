@@ -56,6 +56,37 @@ def instr_gen(instr_name):
     if instr_name=='andn':
         return btd('0100000' + '00000' + '00000' + '111' + '00000' + '0110011')
 
+
+
+# Zba
+
+    if instr_name == 'add_uw':
+        return btd('0000100' + '00000' + '00000' + '000' + '00000' + '0111011')
+
+    if instr_name == 'sh1add':
+        return btd('0010000' + '00000' + '00000' + '010' + '00000' + '0110011')
+
+    if instr_name == 'sh1add_uw':
+        return btd('0010000' + '00000' + '00000' + '010' + '00000' + '0111011')
+
+    if instr_name == 'sh2add':
+        return btd('0010000' + '00000' + '00000' + '100' + '00000' + '0110011')
+
+    if instr_name == 'sh2add_uw':
+        return btd('0010000' + '00000' + '00000' + '100' + '00000' + '0111011')
+
+    if instr_name == 'sh3add':
+        return btd('0010000' + '00000' + '00000' + '110' + '00000' + '0110011')
+
+    if instr_name == 'sh3add_uw':
+        return btd('0010000' + '00000' + '00000' + '110' + '00000' + '0111011')
+
+    if instr_name == 'slli_uw':
+        return btd('000010' + '000000' + '00000' + '001' + '00000' + '0011011')
+
+
+# Zbs 
+
     if instr_name=='bclr':
         return btd('0100100' + '00000' + '00000' + '001' + '00000' + '0110011')
 
@@ -242,18 +273,12 @@ elif base == 'RV64':
     
     
 tf.add_option(('instr','instr_name','single_opd'), \
-    [(instr_gen('andn'), 'andn', 0), 
-    (instr_gen('bclr'), 'bclr', 0), 
-    (instr_gen('bclri'), 'bclri', 1), 
-    (instr_gen('bext'), 'bext', 0), 
-    (instr_gen('bexti'), 'bexti', 1), 
-    (instr_gen('binv'), 'binv', 0), 
-    (instr_gen('binvi'), 'binvi', 1), 
-    (instr_gen('bset'), 'bset', 0), 
-    (instr_gen('bseti'), 'bseti', 1),
-    (instr_gen('clmul'), 'clmul', 0),
-    (instr_gen('clmulh'), 'clmulh', 0),
-    (instr_gen('clmulr'), 'clmulr', 0),
+    [(instr_gen('andn'), 'andn', 0), \
+        (instr_gen('add_uw'),'add_uw',0), (instr_gen('sh1add'),'sh1add',0), (instr_gen('sh1add_uw'),'sh1add_uw',0), (instr_gen('sh2add'),'sh2add',0), \
+            (instr_gen('sh2add_uw'),'sh2add_uw',0), (instr_gen('sh3add'),'sh3add',0), (instr_gen('sh3add_uw'),'sh3add_uw',0), (instr_gen('slli_uw'), 'slli_uw', 1), \
+    # (instr_gen('bclr'), 'bclr', 0), (instr_gen('bclri'), 'bclri', 1), (instr_gen('bext'), 'bext', 0), (instr_gen('bexti'), 'bexti', 1), \
+    #     (instr_gen('binv'), 'binv', 0), (instr_gen('binvi'), 'binvi', 1), (instr_gen('bset'), 'bset', 0), (instr_gen('bseti'), 'bseti', 1), \
+    #          (18,'rolw',0)
     ])
 #  (2,'orn',0), (3,'xnor',0), \
 #     (4,'clz',1), (5,'clzw',1), (6,'ctz',1), (7,'ctzw',1), (8,'cpop',1), (9,'cpopw',1), \

@@ -56,7 +56,7 @@ function Bit#(XLEN) fn_sh3add(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
   return pack(result);
 endfunction
 
-// SH2ADD.UW
+// SH3ADD.UW
 function Bit#(XLEN) fn_sh3add_uw(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
   Bit#(XLEN) index = zeroExtend(rs1[31:0]);
   Int#(XLEN) num = unpack(index << 3);
@@ -66,3 +66,20 @@ function Bit#(XLEN) fn_sh3add_uw(Bit#(XLEN) rs1, Bit#(XLEN) rs2);
   return pack(result);
   
 endfunction
+
+
+// SLLI.UW
+function Bit#(XLEN) fn_slli_uw(Bit#(XLEN) rs1, Bit#(32) instr);
+  Bit#(XLEN) ind = zeroExtend(instr[25:20]);
+  
+  Bit#(XLEN) num = zeroExtend(rs1[31:0]);
+
+  Int#(XLEN) shamt = unpack(ind);
+    
+  return (num << shamt) ;
+endfunction
+
+
+
+
+
