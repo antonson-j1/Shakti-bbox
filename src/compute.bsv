@@ -59,30 +59,45 @@ function BBoxOutput fn_compute(BBoxInput inp);
       valid = True;
     end
 
+    `ifdef RV64       // This instruction is only defined for RV64
+                      // This is only synthesized for RV64 and hence, is better for hardware optimisation
+    
     `CLZW: begin      // Count leading zero bits in word
       result = fn_clzw(inp.rs1);
       valid = True;
     end
+
+    `endif
 
     `CTZ: begin       // Count trailing zeros
       result = fn_ctz(inp.rs1);
       valid = True;
     end
 
+    `ifdef RV64       // This instruction is only defined for RV64
+                      // This is only synthesized for RV64 and hence, is better for hardware optimisation
+    
     `CTZW: begin      // Count trailing zero bits in word
       result = fn_ctzw(inp.rs1);
       valid = True;
     end
+
+    `endif
 
     `CPOP: begin      // Count set bits
       result = fn_cpop(inp.rs1);
       valid = True;
     end
 
+    `ifdef RV64       // This instruction is only defined for RV64
+                      // This is only synthesized for RV64 and hence, is better for hardware optimisation
+    
     `CPOPW: begin     // Count set bits in word
       result = fn_cpopw(inp.rs1);
       valid = True;
     end
+
+    `endif
 
     `MAX: begin       // Maximum
       result = fn_max(inp.rs1, inp.rs2);
@@ -124,30 +139,47 @@ function BBoxOutput fn_compute(BBoxInput inp);
       valid = True;
     end
 
+    `ifdef RV64       // This instruction is only defined for RV64
+                      // This is only synthesized for RV64 and hence, is better for hardware optimisation
+    
     `ROLW: begin      // Rotate Left Word (Register)
       result = fn_rolw(inp.rs1, inp.rs2);
       valid = True;
     end
 
+    `endif
+
     `ROR: begin       // Rotate Right
       result = fn_ror(inp.rs1, inp.rs2);
       valid = True;
     end
-
+    
     `RORI: begin      // Rotate Right (Immediate)
       result = fn_rori(inp.rs1, inp.instr);
       valid = True;
     end
 
+    `ifdef RV64       // This instruction is only defined for RV64
+                      // This is only synthesized for RV64 and hence, is better for hardware optimisation
+    
     `RORIW: begin     // Rotate Right Word by Immediate
       result = fn_roriw(inp.rs1, inp.instr);
       valid = True;
     end
 
+    `endif
+
+
+    `ifdef RV64       // This instruction is only defined for RV64
+                      // This is only synthesized for RV64 and hence, is better for hardware optimisation
+    
+
     `RORW: begin      // Rotate Right Word (Register)
       result = fn_rorw(inp.rs1, inp.rs2);
       valid = True;
     end
+
+    `endif
 
     `ORC_B: begin     // Bitwise OR-Combine, byte granule
       result = fn_orc_b(inp.rs1);
@@ -183,45 +215,70 @@ function BBoxOutput fn_compute(BBoxInput inp);
 /*****************************************************************/
     // ZBA INSTRUCTIONS
 
+    `ifdef RV64       // This instruction is only defined for RV64
+                      // This is only synthesized for RV64 and hence, is better for hardware optimisation
+
     `ADD_UW: begin    // Add unsigned word
       result = fn_and_uw(inp.rs1, inp.rs2);
       valid = True;
     end
+
+    `endif
 
     `SH1ADD: begin    // Shift left by 1 and add
       result = fn_sh1add(inp.rs1, inp.rs2);
       valid = True;
     end
 
+    `ifdef RV64       // This instruction is only defined for RV64
+                      // This is only synthesized for RV64 and hence, is better for hardware optimisation
+    
     `SH1ADD_UW: begin // Shift unsigned word left by 1 and add
       result = fn_sh1add_uw(inp.rs1, inp.rs2);
       valid = True;
     end
+
+    `endif
 
     `SH2ADD: begin    // Shift left by 2 and add
       result = fn_sh2add(inp.rs1, inp.rs2);
       valid = True;
     end
 
+    `ifdef RV64       // This instruction is only defined for RV64
+                      // This is only synthesized for RV64 and hence, is better for hardware optimisation
+    
     `SH2ADD_UW: begin // Shift unsigned word left by 2 and add
       result = fn_sh2add_uw(inp.rs1, inp.rs2);
       valid = True;
     end
+
+    `endif
 
     `SH3ADD: begin    // Shift left by 3 and add
       result = fn_sh3add(inp.rs1, inp.rs2);
       valid = True;
     end
 
+    `ifdef RV64       // This instruction is only defined for RV64
+                      // This is only synthesized for RV64 and hence, is better for hardware optimisation
+    
     `SH3ADD_UW: begin // Shift unsigned word left by 3 and add
       result = fn_sh3add_uw(inp.rs1, inp.rs2);
       valid = True;
     end
 
+    `endif
+
+    `ifdef RV64       // This instruction is only defined for RV64
+                      // This is only synthesized for RV64 and hence, is better for hardware optimisation
+    
     `SLLI_UW: begin   // Shift-left unsigned word (Immediate)
       result = fn_slli_uw(inp.rs1, inp.instr);
       valid = True;
     end
+
+    `endif
 
 
 /*****************************************************************/

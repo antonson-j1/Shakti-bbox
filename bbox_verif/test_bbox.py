@@ -302,7 +302,7 @@ async def TB(dut, XLEN, instr, instr_name, single_opd, num_of_tests, custom_test
     dut._log.info("------------- Test %r of RV%d starts --------------" %(instr_name,XLEN))
     dut._log.info("*******************************************************")
 
-    custom_testing = True          # Change the boolean value to switch between Random and Custom Testing
+    custom_testing = False          # Change the boolean value to switch between Random and Custom Testing
 
     if(not custom_testing):
         # Testing with Random rs1 and rs2
@@ -341,7 +341,7 @@ async def TB(dut, XLEN, instr, instr_name, single_opd, num_of_tests, custom_test
 # generates sets of tests based on the different permutations of the possible arguments to the test function
 tf = TestFactory(TB)
 
-base = 'RV32'
+base = 'RV64'
 #To run tests for RV32, change base = 'RV32'
 
 #generates tests for instructions of RV32
