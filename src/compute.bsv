@@ -1,12 +1,9 @@
 //See LICENSE.iitm for license details
+
 /*
-
-Author : Mouna Krishna
-Email id : mounakrishna@mindgrovetech.in
-Details: The top function which calls the required function depending 
-         on the instruction.
-
---------------------------------------------------------------------------------------------------
+This compute.bsv module is used as top level module for 
+calling the functions from Zba.bsv, Zbb.bsv, Zbc.bsv or 
+Zbs.bsv based on the instructions being used/tested.
 */
 
 /****** Imports *******/
@@ -31,6 +28,7 @@ import bbox_types :: *;
   The complete Zbb group and all the other groups is expected to be implemented 
   and verified.
 */
+
 function BBoxOutput fn_compute(BBoxInput inp);
 
   Bit#(XLEN) result;
@@ -38,234 +36,238 @@ function BBoxOutput fn_compute(BBoxInput inp);
   Bool valid;
   case(inp.instr) matches
 
+/*****************************************************************/
     // ZBB INSTRUCTIONS
 
-    `ANDN: begin
+    `ANDN: begin      // AND with inverted operand
       result = truncate(fn_andn(inp.rs1, inp.rs2));
       valid = True;
     end
 
-    `ORN: begin
+    `ORN: begin       // OR with inverted operand
       result = fn_orn(inp.rs1, inp.rs2);
       valid = True;
     end
 
-    `XNOR: begin
+    `XNOR: begin      // Exclusive NOR
       result = fn_xnor(inp.rs1, inp.rs2);
       valid = True;
     end
 
-    `CLZ: begin
+    `CLZ: begin       // Count leading zero bits
       result = fn_clz(inp.rs1);
       valid = True;
     end
 
-    `CLZW: begin
+    `CLZW: begin      // Count leading zero bits in word
       result = fn_clzw(inp.rs1);
       valid = True;
     end
 
-    `CTZ: begin
+    `CTZ: begin       // Count trailing zeros
       result = fn_ctz(inp.rs1);
       valid = True;
     end
 
-    `CTZW: begin
+    `CTZW: begin      // Count trailing zero bits in word
       result = fn_ctzw(inp.rs1);
       valid = True;
     end
 
-    `CPOP: begin
+    `CPOP: begin      // Count set bits
       result = fn_cpop(inp.rs1);
       valid = True;
     end
 
-    `CPOPW: begin
+    `CPOPW: begin     // Count set bits in word
       result = fn_cpopw(inp.rs1);
       valid = True;
     end
 
-    `MAX: begin
+    `MAX: begin       // Maximum
       result = fn_max(inp.rs1, inp.rs2);
       valid = True;
     end
 
-    `MAXU: begin
+    `MAXU: begin      // Unsigned maximum
       result = fn_maxu(inp.rs1, inp.rs2);
       valid = True;
     end
 
-    `MIN: begin
+    `MIN: begin       // Minimum
       result = fn_min(inp.rs1, inp.rs2);
       valid = True;
     end
 
-    `MINU: begin
+    `MINU: begin      // Unsigned minimum
       result = fn_minu(inp.rs1, inp.rs2);
       valid = True;
     end
 
-    `SEXT_B: begin
+    `SEXT_B: begin    // Sign-extend byte
       result = fn_sext_b(inp.rs1);
       valid = True;
     end
 
-    `SEXT_H: begin
+    `SEXT_H: begin    // Sign-extend halfword
       result = fn_sext_h(inp.rs1);
       valid = True;
     end
 
-    `ZEXT_H: begin
+    `ZEXT_H: begin    // Zero-extend halfword
       result = fn_zext_h(inp.rs1);
       valid = True;
     end
 
-    `ROL: begin
+    `ROL: begin       // Rotate Left (Register)
       result = fn_rol(inp.rs1, inp.rs2);
       valid = True;
     end
 
-    `ROLW: begin
+    `ROLW: begin      // Rotate Left Word (Register)
       result = fn_rolw(inp.rs1, inp.rs2);
       valid = True;
     end
 
-    `ROR: begin
+    `ROR: begin       // Rotate Right
       result = fn_ror(inp.rs1, inp.rs2);
       valid = True;
     end
 
-    `RORI: begin
+    `RORI: begin      // Rotate Right (Immediate)
       result = fn_rori(inp.rs1, inp.instr);
       valid = True;
     end
 
-    `RORIW: begin
+    `RORIW: begin     // Rotate Right Word by Immediate
       result = fn_roriw(inp.rs1, inp.instr);
       valid = True;
     end
 
-    `RORW: begin
+    `RORW: begin      // Rotate Right Word (Register)
       result = fn_rorw(inp.rs1, inp.rs2);
       valid = True;
     end
 
-    `ORC_B: begin
+    `ORC_B: begin     // Bitwise OR-Combine, byte granule
       result = fn_orc_b(inp.rs1);
       valid = True;
     end
 
-    `REV8: begin
+    `REV8: begin      // Byte-reverse register
       result = fn_rev8(inp.rs1);
       valid = True;
     end
 
 
 
-  // ZBC INSTRUCTIONS
+/*****************************************************************/
+    // ZBC INSTRUCTIONS
 
-    `CLMUL: begin
+    `CLMUL: begin     // Carry-less multiply (low-part)
       result = fn_clmul(inp.rs1, inp.rs2);
       valid = True;
     end
 
-    `CLMULH: begin
+    `CLMULH: begin    // Carry-less multiply (high-part)
       result = fn_clmulh(inp.rs1, inp.rs2);
       valid = True;
     end
 
-    `CLMULR: begin
+    `CLMULR: begin    // Carry-less multiply (reversed)
       result = fn_clmulr(inp.rs1, inp.rs2);
       valid = True;
     end
 
 
-  // ZBA INSTRUCTIONS
+/*****************************************************************/
+    // ZBA INSTRUCTIONS
 
-    `ADD_UW: begin
+    `ADD_UW: begin    // Add unsigned word
       result = fn_and_uw(inp.rs1, inp.rs2);
       valid = True;
     end
 
-    `SH1ADD: begin
+    `SH1ADD: begin    // Shift left by 1 and add
       result = fn_sh1add(inp.rs1, inp.rs2);
       valid = True;
     end
 
-    `SH1ADD_UW: begin
+    `SH1ADD_UW: begin // Shift unsigned word left by 1 and add
       result = fn_sh1add_uw(inp.rs1, inp.rs2);
       valid = True;
     end
 
-    `SH2ADD: begin
+    `SH2ADD: begin    // Shift left by 2 and add
       result = fn_sh2add(inp.rs1, inp.rs2);
       valid = True;
     end
 
-    `SH2ADD_UW: begin
+    `SH2ADD_UW: begin // Shift unsigned word left by 2 and add
       result = fn_sh2add_uw(inp.rs1, inp.rs2);
       valid = True;
     end
 
-    `SH3ADD: begin
+    `SH3ADD: begin    // Shift left by 3 and add
       result = fn_sh3add(inp.rs1, inp.rs2);
       valid = True;
     end
 
-    `SH3ADD_UW: begin
+    `SH3ADD_UW: begin // Shift unsigned word left by 3 and add
       result = fn_sh3add_uw(inp.rs1, inp.rs2);
       valid = True;
     end
 
-    `SLLI_UW: begin
+    `SLLI_UW: begin   // Shift-left unsigned word (Immediate)
       result = fn_slli_uw(inp.rs1, inp.instr);
       valid = True;
     end
 
 
-  // ZBS INSTRUCTIONS
+/*****************************************************************/
+    // ZBS INSTRUCTIONS
 
-    `BCLR: begin
+    `BCLR: begin      // Single-Bit Clear (Register)
       result = fn_bclr(inp.rs1, inp.rs2);
       valid = True;
     end
 
-    `BCLRI: begin
+    `BCLRI: begin     // Single-Bit Clear (Immediate)
       result = fn_bclri(inp.rs1, inp.instr);
       valid = True;
     end
 
-    `BEXT: begin
+    `BEXT: begin      // Single-Bit Extract (Register)
       result = fn_bext(inp.rs1, inp.rs2);
       valid = True;
     end
 
-    `BEXTI: begin
+    `BEXTI: begin     // Single-Bit Extract (Immediate)
       result = fn_bexti(inp.rs1, inp.instr);
       valid = True;
     end
 
-    `BINV: begin
+    `BINV: begin      // Single-Bit Invert (Register)
       result = fn_binv(inp.rs1, inp.rs2);
       valid = True;
     end
 
-    `BINVI: begin
+    `BINVI: begin     // Single-Bit Invert (Immediate)
       result = fn_binvi(inp.rs1, inp.instr);
       valid = True;
     end
 
-    `BSET: begin
+    `BSET: begin      // Single-Bit Set (Register)
       result = fn_bset(inp.rs1, inp.rs2);
       valid = True;
     end
 
-    `BSETI: begin
+    `BSETI: begin     // Single-Bit Set (Immediate)
       result = fn_bseti(inp.rs1, inp.instr);
       valid = True;
     end
 
-
+/*****************************************************************/
     default: begin
       result = 0;
       valid = False;
